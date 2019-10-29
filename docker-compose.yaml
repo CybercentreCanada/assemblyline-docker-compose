@@ -122,9 +122,9 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - /opt/alv4/appliance/config/default.template:/etc/nginx/conf.d/default.conf
-      - /opt/alv4/appliance/config/nginx.crt:/etc/ssl/nginx.crt
-      - /opt/alv4/appliance/config/nginx.key:/etc/ssl/nginx.key
+      - ${COMPOSE_ROOT}/config/default.template:/etc/nginx/conf.d/default.conf
+      - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt
+      - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key
     command: /bin/bash -c "cat /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
     networks:
       - core
@@ -137,7 +137,7 @@ services:
   al_alerter:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.alerter.run_alerter
@@ -146,7 +146,7 @@ services:
   al_expiry:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.expiry.run_expiry
@@ -155,7 +155,7 @@ services:
   al_metrics:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_metrics_aggregator
@@ -164,7 +164,7 @@ services:
   al_heartbeat:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
@@ -173,7 +173,7 @@ services:
   al_workflow:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.workflow.run_workflow
@@ -182,7 +182,7 @@ services:
   al_watcher:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.watcher.run_watcher
@@ -190,7 +190,7 @@ services:
   al_scaler:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     networks: [core]
     restart: on-failure
@@ -199,7 +199,7 @@ services:
   al_dispatcher_files:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.dispatching.run_files
@@ -207,7 +207,7 @@ services:
   al_dispatcher_submissions:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.dispatching.run_submissions
@@ -216,7 +216,7 @@ services:
   al_ingester_ingest:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_ingest
@@ -224,7 +224,7 @@ services:
   al_ingester_internal:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_internal
@@ -232,7 +232,7 @@ services:
   al_ingester_submit:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_submit
@@ -243,7 +243,7 @@ services:
     ports:
       - '5003:5003'
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
       - core
       - svc
@@ -256,7 +256,7 @@ services:
     ports:
       - '5000:5000'
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.app
     networks: [core]
 
@@ -266,7 +266,7 @@ services:
     ports:
       - '5002:5002'
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.socketsrv
     networks: [core]
 
@@ -274,8 +274,8 @@ services:
   al_first_time_setup:
     image: cccs/assemblyline-core:${CORE_VERSION}
     volumes:
-      - /opt/alv4/appliance/config/config.yml:/etc/assemblyline/config.yml:ro
-      - /opt/alv4/appliance/config/bootstrap.py:/tmp/bootstrap.py:ro
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/bootstrap.py:/tmp/bootstrap.py:ro
     command: python3 /tmp/bootstrap.py
     networks: [core]
 
