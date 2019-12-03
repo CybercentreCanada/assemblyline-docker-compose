@@ -1,0 +1,35 @@
+filebeat.inputs:
+  - type: docker
+    combine_partial: true
+    containers:
+      path: "/var/lib/docker/containers"
+      stream: "all"
+      ids:
+        - "*"
+
+logging:
+  level: warning
+  json: true
+
+processors:
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - decode_json_fields:
+      fields: ["message"]
+      process_array: false
+      max_depth: 1
+      target: ""
+      overwrite_keys: true
+
+
+output.elasticsearch:
+  hosts: 'elasticsearch:9200'
+  username: elastic
+  password: devpass
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.number_of_replicas: 0
+setup.ilm:
+  enabled: true
+  policy_file: /usr/share/filebeat/filebeat_policy.json

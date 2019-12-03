@@ -8,9 +8,11 @@ core:
       hosts: [elasticsearch]
     redis:
       host: redis
+      port: 6379
   redis:
     nonpersistent:
       host: redis
+      port: 6379
     persistent:
       host: redis
       port: 6379
@@ -23,6 +25,7 @@ filestore:
   storage: ["s3://al_storage_key:password3@minio:9000?s3_bucket=al-storage&use_ssl=False"]
 
 logging:
+  log_level: WARNING
   log_to_console: true
   log_to_file: false
   log_to_syslog: false

@@ -1,0 +1,64 @@
+logging:
+  level: warning
+  json: true
+
+metricbeat.modules:
+  - module: system
+    metricsets:
+      - cpu
+      - load
+      - memory
+      - network
+      - process
+      - process_summary
+      - uptime
+      - socket_summary
+      - diskio
+      - fsstat
+      - socket
+    enabled: true
+    period: 10s
+    processes: ['.*']
+
+    # Configure the metric types that are included by these metricsets.
+    cpu.metrics:  ["percentages"]  # The other available options are normalized_percentages and ticks.
+    core.metrics: ["percentages"]
+  - module: redis
+    metricsets:
+      - "info"
+      - "keyspace"
+    period: 10s
+    hosts: ["redis:6379"]
+  - module: docker
+    metricsets:
+      - "container"
+      - "cpu"
+      - "diskio"
+      - "event"
+      - "healthcheck"
+      - "info"
+      - "memory"
+      - "network"
+    hosts: ["unix:///var/run/docker.sock"]
+    period: 10s
+    enabled: true
+    processors:
+      - add_docker_metadata: ~
+
+output.console:
+  enabled: false
+
+output.elasticsearch:
+  hosts: 'elasticsearch:9200'
+  username: elastic
+  password: devpass
+
+processors:
+  - add_cloud_metadata: ~
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.number_of_replicas: 0
+setup.ilm:
+  enabled: true
+  policy_file: /usr/share/metricbeat/metricbeat_policy.json
