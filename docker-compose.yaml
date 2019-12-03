@@ -19,7 +19,9 @@ services:
     image: docker.elastic.co/kibana/kibana:7.4.0
     environment:
       SERVER_NAME: localhost
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     depends_on:
       - elasticsearch
     volumes:
@@ -37,7 +39,9 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     environment:
-      ES_HOSTS: elasticsearch:9200
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     ports:
       - '8200:8200'
     depends_on:
@@ -70,7 +74,9 @@ services:
     image: docker.elastic.co/beats/filebeat:7.3.0
     user: root
     environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -86,7 +92,9 @@ services:
     image: docker.elastic.co/beats/metricbeat:7.4.0
     user: root
     environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${COMPOSE_ROOT}/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro

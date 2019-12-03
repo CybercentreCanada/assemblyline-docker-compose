@@ -49,9 +49,9 @@ output.console:
   enabled: false
 
 output.elasticsearch:
-  hosts: 'elasticsearch:9200'
-  username: elastic
-  password: devpass
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USERNAME}
+  password: ${ELASTIC_PASSWORD}
 
 processors:
   - add_cloud_metadata: ~

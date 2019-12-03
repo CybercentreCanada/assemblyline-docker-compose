@@ -1,6 +1,6 @@
-elasticsearch.hosts: [ "http://elasticsearch:9200" ]
-elasticsearch.password: devpass
-elasticsearch.username: elastic
+elasticsearch.hosts: ${ELASTIC_HOSTS}
+elasticsearch.password: ${ELASTIC_PASSWORD}
+elasticsearch.username: ${ELASTIC_USERNAME}
 
 logging.quiet: true
 

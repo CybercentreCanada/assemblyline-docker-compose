@@ -23,9 +23,9 @@ processors:
 
 
 output.elasticsearch:
-  hosts: 'elasticsearch:9200'
-  username: elastic
-  password: devpass
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USERNAME}
+  password: ${ELASTIC_PASSWORD}
 
 setup.template.settings:
   index.number_of_shards: 1
