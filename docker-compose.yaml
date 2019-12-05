@@ -351,6 +351,7 @@ services:
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
     networks: [svc]
 
   # Characterize service
@@ -359,6 +360,7 @@ services:
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
     networks: [svc]
 
   # Extract service
@@ -367,6 +369,7 @@ services:
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
     depends_on:
       - al_service_server
     networks: [svc]
@@ -377,6 +380,7 @@ services:
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
     networks: [svc]
 
   # PEFile service
@@ -385,6 +389,7 @@ services:
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
     networks: [svc]
 
   # Yara service
@@ -393,6 +398,7 @@ services:
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'true'
     networks: [svc]
 
 
