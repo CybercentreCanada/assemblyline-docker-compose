@@ -53,10 +53,10 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
     environment:
-#      - xpack.security.enabled=true
+      - xpack.security.enabled=true
       - discovery.type=single-node
       - logger.level=WARN
-#      - "ELASTIC_PASSWORD=devpass"
+      - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - '9200:9200'
@@ -154,6 +154,7 @@ services:
   # Alerter
   al_alerter:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -163,6 +164,7 @@ services:
   # Expiry
   al_expiry:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -172,6 +174,7 @@ services:
   # Metrics aggregator
   al_metrics:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -181,6 +184,7 @@ services:
   # Hearbeat manager
   al_heartbeat:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -190,6 +194,7 @@ services:
   # Workflow
   al_workflow:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -199,6 +204,7 @@ services:
   # Watcher
   al_watcher:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -213,6 +219,7 @@ services:
       cache_from:
         - cccs/assemblyline-core:${CORE_VERSION}
     privileged: true
+    env_file: [".env"]
     environment:
       FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
       FILE_UPDATE_DIRECTORY: /mount/update_root/
@@ -232,6 +239,7 @@ services:
       cache_from:
         - cccs/assemblyline-core:${CORE_VERSION}
     privileged: true
+    env_file: [".env"]
     environment:
       FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
       FILE_UPDATE_DIRECTORY: /mount/update_root/
@@ -245,6 +253,7 @@ services:
 
   al_dispatcher_files:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -253,6 +262,7 @@ services:
 
   al_dispatcher_submissions:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -262,6 +272,7 @@ services:
   # Ingester Processes
   al_ingester_ingest:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -270,6 +281,7 @@ services:
 
   al_ingester_internal:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -278,6 +290,7 @@ services:
 
   al_ingester_submit:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
@@ -295,6 +308,7 @@ services:
       - core
       - svc
     depends_on: [elasticsearch, redis]
+    env_file: [".env"]
     environment:
       SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
     command: "python -m assemblyline_service_server.app"
@@ -302,6 +316,7 @@ services:
   # UI
   al_ui:
     image: cccs/assemblyline-ui:${UI_VERSION}
+    env_file: [".env"]
     ports:
       - '5000:5000'
     volumes:
@@ -312,6 +327,7 @@ services:
   # SocketIO Server
   al_socketio:
     image: cccs/assemblyline-socketio:${UI_VERSION}
+    env_file: [".env"]
     ports:
       - '5002:5002'
     volumes:
@@ -322,6 +338,7 @@ services:
   # Bootstrap the assemblyline system by creating an admin user
   al_first_time_setup:
     image: cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/config/bootstrap.py:/tmp/bootstrap.py:ro
