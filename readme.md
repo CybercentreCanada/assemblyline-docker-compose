@@ -8,7 +8,9 @@
 2. Clone this repo `git clone git@bitbucket.org:cse-assemblyline/alv4_appliance.git` 
 3. Copy in an existing or generate a self signed certificate into the `config` directory in the cloned repository.
    `openssl req -x509 -newkey rsa:4096 -keyout ./config/nginx.key -out ./config/nginx.crt -days 365`
-4. Replace passwords in `.env` and `./config/bootstrap.py`.
-5. Make any other customization changes.
+4. Set passwords and paths in `.env` and `./config/bootstrap.py`.
 6. Launch the system `docker-compose up -d`
 
+#### Caveats
+
+- Docker isn't supported in swarm mode
