@@ -12,7 +12,7 @@ services:
     command: server /data
     networks: [core]
     volumes:
-    - ${FILESTORE_PATH}:/data
+    - filestore:/data
     restart: on-failure
 
   kibana:
@@ -67,7 +67,7 @@ services:
         retries: 3
     networks: [core]
     volumes:
-      - ${DATASTORE_PATH}:/usr/share/elasticsearch/data
+      - datastore:/usr/share/elasticsearch/data
     restart: on-failure
 
   filebeat:
@@ -116,19 +116,19 @@ services:
     restart: on-failure
     networks: [core]
 
-#  redis-persist:
-#    image: redis
-#    ports:
-#      - '6379:6379'
-#    healthcheck:
-#      test: ["CMD", "redis-cli","ping"]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 3
-#    volumes:
-#      - ${REDIS_PATH}:/data
-#    restart: on-failure
-#    networks: [core]
+  redis-persist:
+    image: redis
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - redis:/data
+    restart: on-failure
+    networks: [core]
 
   nginx:
     image: sgaroncse/nginx-ssl:1.17.5
@@ -410,3 +410,8 @@ networks:
   svc:
     name: svc
     internal: true
+
+volumes:
+  filestore:
+  datastore:
+  redis:

@@ -23,7 +23,7 @@ core:
       host: redis
       port: 6379
     persistent:
-      host: redis
+      host: redis-persist
       port: 6379
 
 datastore:
