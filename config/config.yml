@@ -17,7 +17,7 @@ core:
         - name: SERVICE_API_KEY
           value: ${SERVICE_API_KEY}
         - name: SERVICE_API_HOST
-          value: 'http://al_service_server:5003'
+          value: 'http://service-server:5003'
   redis:
     nonpersistent:
       host: redis
