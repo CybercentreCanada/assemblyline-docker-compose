@@ -13,14 +13,19 @@ This setup includes the bare-minimum components for everything to be able to run
 
 #### Setup 
 
-1. Install docker and docker-compose on a linux system
-2. Clone this repository
-    - git clone git@bitbucket.org:cse-assemblyline/assemblyline_docker_compose.git
-3. Copy in an existing or generate a self signed certificate into the `./minimal_appliance/config` directory in the cloned repository
-   - openssl req -nodes -x509 -newkey rsa:4096 -keyout ./minimal_appliance/config/nginx.key -out ./minimal_appliance/config/nginx.crt -days 365
-4. Set passwords and paths in `./minimal_appliance/.env` and `./minimal_appliance/config/bootstrap.py`
-5. Launch the system
-    - (cd ./minimal_appliance/ && docker-compose up -d)
+##### 1. Install docker and docker-compose on a linux system
+##### 2. Clone this repository
+
+    git clone git@bitbucket.org:cse-assemblyline/assemblyline_docker_compose.git
+
+##### 3. Copy in an existing or generate a self signed certificate into the `./minimal_appliance/config` directory in the cloned repository
+    
+    openssl req -nodes -x509 -newkey rsa:4096 -keyout ./minimal_appliance/config/nginx.key -out ./minimal_appliance/config/nginx.crt -days 365
+
+##### 4. Set passwords and paths in `./minimal_appliance/.env` and `./minimal_appliance/config/bootstrap.py`
+##### 5. Launch the system
+    
+    (cd ./minimal_appliance/ && docker-compose up -d)
 
 
 ### Full Appliance
@@ -29,12 +34,17 @@ This setup includes every single components and all metrics and logging capabili
 
 #### Setup 
 
-1. Install docker and docker-compose on a linux system
-2. Clone this repository
-    - git clone git@bitbucket.org:cse-assemblyline/assemblyline_docker_compose.git
-3. Copy in an existing or generate a self signed certificate into the `./full_appliance/config` directory in the cloned repository
-   - openssl req -nodes -x509 -newkey rsa:4096 -keyout ./full_appliance/config/nginx.key -out ./full_appliance/config/nginx.crt -days 365
-4. Set passwords and paths in `./full_appliance/.env` and `./full_appliance/config/bootstrap.py`
-5. Launch the system
-    - (cd ./full_appliance/ && docker-compose up -d)
+##### 1. Install docker and docker-compose on a linux system
+##### 2. Clone this repository
+
+    git clone git@bitbucket.org:cse-assemblyline/assemblyline_docker_compose.git
+
+##### 3. Copy in an existing or generate a self signed certificate into the `./full_appliance/config` directory in the cloned repository
+
+   openssl req -nodes -x509 -newkey rsa:4096 -keyout ./full_appliance/config/nginx.key -out ./full_appliance/config/nginx.crt -days 365
+
+##### 4. Set passwords and paths in `./full_appliance/.env` and `./full_appliance/config/bootstrap.py`
+##### 5. Launch the system
+    
+    (cd ./full_appliance/ && docker-compose up -d)
 
