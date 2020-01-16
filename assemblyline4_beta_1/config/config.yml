@@ -10,9 +10,11 @@ core:
       host: redis
       port: 6379
   scaler:
+    cpu_overallocation: 2.0
     service_defaults:
       backlog: 10
       shrink: 20
+      min_instances: 1
       environment:
         - name: SERVICE_API_KEY
           value: ${SERVICE_API_KEY}
