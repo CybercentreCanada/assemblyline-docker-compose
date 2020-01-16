@@ -258,6 +258,24 @@ services:
       - REGISTER_ONLY=True
     networks: [svc]
 
+  # Cleaver service
+  alsvc_cleaver:
+    image: cccs/assemblyline-service-cleaver:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
+  # Espresso service
+  alsvc_espresso:
+    image: cccs/assemblyline-service-espresso:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
   # Extract service
   alsvc_extract:
     image: cccs/assemblyline-service-extract:latest
@@ -265,13 +283,38 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    depends_on:
-      - al_service_server
+    networks: [svc]
+
+  # iParse service
+  alsvc_iparse:
+    image: cccs/assemblyline-service-iparse:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
     networks: [svc]
 
   # MetaPeek service
   alsvc_metapeek:
     image: cccs/assemblyline-service-metapeek:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
+  # OleTools service
+  alsvc_oletools:
+    image: cccs/assemblyline-service-oletools:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
+  # PDFiD service
+  alsvc_pdfid:
+    image: cccs/assemblyline-service-pdfid:latest
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
@@ -287,7 +330,43 @@ services:
       - REGISTER_ONLY=True
     networks: [svc]
 
-  # Yara service
+  # PeePDF service
+  alsvc_peepdf:
+    image: cccs/assemblyline-service-peepdf:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
+  # TorrentSlicer service
+  alsvc_torrentslicer:
+    image: cccs/assemblyline-service-torrentslicer:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
+  # Unpacker service
+  alsvc_unpacker:
+    image: cccs/assemblyline-service-unpacker:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
+  # ViperMonkey service
+  alsvc_vipermonkey:
+    image: cccs/assemblyline-service-vipermonkey:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [svc]
+
+  # Yara service - Not signatures are setup by default
   alsvc_yara:
     image: cccs/assemblyline-service-yara:latest
     environment:
@@ -295,7 +374,6 @@ services:
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [svc]
-
 
 networks:
   core:
