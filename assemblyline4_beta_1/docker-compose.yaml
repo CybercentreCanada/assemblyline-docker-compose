@@ -125,7 +125,7 @@ services:
       FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
       FILE_UPDATE_DIRECTORY: /mount/update_root/
     volumes:
-      - ${UPDATE_DATA_PATH}:/mount/update_root/
+      - updater:/mount/update_root/
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     networks: [core]
@@ -145,7 +145,7 @@ services:
       FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
       FILE_UPDATE_DIRECTORY: /mount/update_root/
     volumes:
-      - ${UPDATE_DATA_PATH}:/mount/update_root/
+      - updater:/mount/update_root/
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     command: python3 -m assemblyline_core.updater.run_updater
@@ -388,4 +388,4 @@ networks:
 volumes:
   filestore:
   datastore:
-  redis:
+  updater:
