@@ -7,8 +7,6 @@ services:
     environment:
       MINIO_ACCESS_KEY: al_storage_key
       MINIO_SECRET_KEY: "${FILESTORE_PASSWORD}"
-    ports:
-      - '9000:9000'
     command: server /data
     networks: [core]
     volumes:
@@ -42,8 +40,6 @@ services:
       ELASTIC_HOSTS: http://elasticsearch:9200
       ELASTIC_USERNAME: elastic
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-    ports:
-      - '8200:8200'
     depends_on:
       - elasticsearch
     networks:
@@ -58,8 +54,6 @@ services:
       - logger.level=WARN
       - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
       - "ES_JAVA_OPTS=-Xms512m -Xmx${ELASTIC_MAX_MEM}m"
-    ports:
-      - '9200:9200'
     healthcheck:
         test: ["CMD-SHELL", "curl --silent --fail -u elastic:${ELASTIC_PASSWORD} localhost:9200/_cluster/health || exit 1"]
         interval: 30s
@@ -106,8 +100,6 @@ services:
 
   redis:
     image: redis
-    ports:
-      - '6379:6379'
     healthcheck:
       test: ["CMD", "redis-cli","ping"]
       interval: 30s
@@ -118,8 +110,6 @@ services:
 
   redis-persist:
     image: redis
-    ports:
-      - '6379:6379'
     healthcheck:
       test: ["CMD", "redis-cli","ping"]
       interval: 30s
@@ -133,17 +123,17 @@ services:
   nginx:
     image: sgaroncse/nginx-ssl:1.17.5
     ports:
-      - '80:80'
       - '443:443'
     environment:
+      - DOLLAR=$$
       - UI_HOST=al_ui
       - SOCKET_HOST=al_socketio
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
     volumes:
-      - ${COMPOSE_ROOT}/config/nginx.template:/etc/nginx/conf.d/default.conf
-      - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt
-      - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key
+      - ${COMPOSE_ROOT}/config/nginx.template:/tmp/default.template:ro
+      - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt:ro
+      - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key:ro
     networks:
       - core
       - external
@@ -300,8 +290,6 @@ services:
   # Service server
   al_service_server:
     image: cccs/assemblyline-service-server:${SERVICE_SERVER_VERSION}
-    ports:
-      - '5003:5003'
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
@@ -317,8 +305,6 @@ services:
   al_ui:
     image: cccs/assemblyline-ui:${UI_VERSION}
     env_file: [".env"]
-    ports:
-      - '5000:5000'
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.app
@@ -328,8 +314,6 @@ services:
   al_socketio:
     image: cccs/assemblyline-socketio:${UI_VERSION}
     env_file: [".env"]
-    ports:
-      - '5002:5002'
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.socketsrv
@@ -396,9 +380,9 @@ services:
   alsvc_yara:
     image: cccs/assemblyline-service-yara:latest
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'true'
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
     networks: [svc]
 
 
