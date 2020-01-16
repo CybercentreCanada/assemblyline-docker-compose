@@ -52,7 +52,7 @@ services:
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
     volumes:
-      - ${COMPOSE_ROOT}/config/nginx.template:/etc/nginx/conf.d/default.conf
+      - ${COMPOSE_ROOT}/config/nginx.template:/tmp/default.template
       - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt
       - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key
     networks:
