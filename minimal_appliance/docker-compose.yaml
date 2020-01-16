@@ -387,4 +387,3 @@ networks:
 volumes:
   filestore:
   datastore:
-  redis:
