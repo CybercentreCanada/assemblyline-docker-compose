@@ -7,8 +7,6 @@ services:
     environment:
       MINIO_ACCESS_KEY: al_storage_key
       MINIO_SECRET_KEY: "${FILESTORE_PASSWORD}"
-    ports:
-      - '9000:9000'
     command: server /data
     networks: [core]
     volumes:
@@ -16,15 +14,13 @@ services:
     restart: on-failure
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
     environment:
       - xpack.security.enabled=true
       - discovery.type=single-node
       - logger.level=WARN
       - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
       - "ES_JAVA_OPTS=-Xms512m -Xmx${ELASTIC_MAX_MEM}m"
-    ports:
-      - '9200:9200'
     healthcheck:
         test: ["CMD-SHELL", "curl --silent --fail -u elastic:${ELASTIC_PASSWORD} localhost:9200/_cluster/health || exit 1"]
         interval: 30s
@@ -37,27 +33,11 @@ services:
 
   redis:
     image: redis
-    ports:
-      - '6379:6379'
     healthcheck:
       test: ["CMD", "redis-cli","ping"]
       interval: 30s
       timeout: 10s
       retries: 3
-    restart: on-failure
-    networks: [core]
-
-  redis-persist:
-    image: redis
-    ports:
-      - '6379:6379'
-    healthcheck:
-      test: ["CMD", "redis-cli","ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    volumes:
-      - redis:/data
     restart: on-failure
     networks: [core]
 
@@ -66,6 +46,7 @@ services:
     ports:
       - '443:443'
     environment:
+      - DOLLAR=$$
       - UI_HOST=al_ui
       - SOCKET_HOST=al_socketio
       - FQDN=${DOMAIN}
@@ -220,8 +201,6 @@ services:
   # Service server
   al_service_server:
     image: cccs/assemblyline-service-server:${SERVICE_SERVER_VERSION}
-    ports:
-      - '5003:5003'
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
@@ -237,8 +216,6 @@ services:
   al_ui:
     image: cccs/assemblyline-ui:${UI_VERSION}
     env_file: [".env"]
-    ports:
-      - '5000:5000'
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.app
@@ -248,8 +225,6 @@ services:
   al_socketio:
     image: cccs/assemblyline-socketio:${UI_VERSION}
     env_file: [".env"]
-    ports:
-      - '5002:5002'
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.socketsrv
@@ -312,13 +287,13 @@ services:
       - REGISTER_ONLY=True
     networks: [svc]
 
-  # Yara service
+  # Yara service - Not signatures are setup by default
   alsvc_yara:
     image: cccs/assemblyline-service-yara:latest
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'true'
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
     networks: [svc]
 
 
