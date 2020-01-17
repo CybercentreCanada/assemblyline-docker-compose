@@ -373,6 +373,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
+      - FILE_UPDATE_DIRECTORY=/mount/updates/
     networks: [svc]
 
 networks:
