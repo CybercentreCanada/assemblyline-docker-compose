@@ -20,12 +20,18 @@ This setup includes the bare-minimum components for everything to be able to run
 
 ##### 3. Copy in an existing or generate a self signed certificate into the `./minimal_appliance/config` directory in the cloned repository
     
-    openssl req -nodes -x509 -newkey rsa:4096 -keyout ./minimal_appliance/config/nginx.key -out ./minimal_appliance/config/nginx.crt -days 365
+    openssl req -nodes -x509 -newkey rsa:4096 -keyout ./minimal_appliance/config/nginx.key -out ./minimal_appliance/config/nginx.crt -days 365 -subj "/C=CA/ST=Ontario/L=Ottawa/O=CCCS/CN=assemblyline.local"
 
 ##### 4. Set passwords and paths in `./minimal_appliance/.env` and `./minimal_appliance/config/bootstrap.py`
 ##### 5. Launch the system
     
-    (cd ./minimal_appliance/ && docker-compose up -d)
+From your appliance folder
+
+    cd ./minimal_appliance/
+    
+Launch the compose file
+
+    sudo docker-compose up -d
 
 
 ### Full Appliance
@@ -41,10 +47,16 @@ This setup includes every single components and all metrics and logging capabili
 
 ##### 3. Copy in an existing or generate a self signed certificate into the `./full_appliance/config` directory in the cloned repository
 
-   openssl req -nodes -x509 -newkey rsa:4096 -keyout ./full_appliance/config/nginx.key -out ./full_appliance/config/nginx.crt -days 365
+    openssl req -nodes -x509 -newkey rsa:4096 -keyout ./full_appliance/config/nginx.key -out ./full_appliance/config/nginx.crt -days 365 -subj "/C=CA/ST=Ontario/L=Ottawa/O=CCCS/CN=assemblyline.local"
 
 ##### 4. Set passwords and paths in `./full_appliance/.env` and `./full_appliance/config/bootstrap.py`
 ##### 5. Launch the system
+
+From your appliance folder
+
+    cd ./full_appliance/
     
-    (cd ./full_appliance/ && docker-compose up -d)
+Launch the compose file
+
+    sudo docker-compose up -d
 
