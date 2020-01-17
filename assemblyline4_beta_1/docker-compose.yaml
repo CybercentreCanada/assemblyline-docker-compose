@@ -122,7 +122,7 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
-      FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
+      FILE_UPDATE_VOLUME: updater
       FILE_UPDATE_DIRECTORY: /mount/update_root/
     volumes:
       - updater:/mount/update_root/
@@ -142,7 +142,7 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
-      FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
+      FILE_UPDATE_VOLUME: updater
       FILE_UPDATE_DIRECTORY: /mount/update_root/
     volumes:
       - updater:/mount/update_root/
@@ -366,13 +366,14 @@ services:
       - REGISTER_ONLY=True
     networks: [svc]
 
-  # Yara service - Not signatures are setup by default
+  # Yara service
   alsvc_yara:
     image: cccs/assemblyline-service-yara:latest
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
+      - FILE_UPDATE_DIRECTORY=/mount/updates/
     networks: [svc]
 
 
