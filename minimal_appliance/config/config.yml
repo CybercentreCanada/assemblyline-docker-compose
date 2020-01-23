@@ -10,9 +10,11 @@ core:
       host: redis
       port: 6379
   scaler:
+    cpu_overallocation: 4.0
     service_defaults:
       backlog: 10
       shrink: 20
+      min_instances: 1
       environment:
         - name: SERVICE_API_KEY
           value: ${SERVICE_API_KEY}
@@ -35,6 +37,7 @@ filestore:
 
 logging:
   log_level: WARNING
+  log_as_json: false
   log_to_console: true
   log_to_file: false
   log_to_syslog: false
