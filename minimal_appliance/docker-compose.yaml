@@ -357,15 +357,6 @@ services:
       - REGISTER_ONLY=True
     networks: [svc]
 
-  # ViperMonkey service
-  alsvc_vipermonkey:
-    image: cccs/assemblyline-service-vipermonkey:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
   # Yara service - Not signatures are setup by default
   alsvc_yara:
     image: cccs/assemblyline-service-yara:latest
