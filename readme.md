@@ -1,6 +1,6 @@
 ## Assemblyline 4 - Docker compose documentation
 
-There are two types of comfiguration possible:
+There are two types of configuration possible:
     
 - Minimal appliance
 - Full Appliance
