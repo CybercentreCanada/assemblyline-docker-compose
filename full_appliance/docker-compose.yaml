@@ -300,6 +300,7 @@ services:
     environment:
       SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
     command: "python -m assemblyline_service_server.app"
+    restart: on-failure
 
   # UI
   al_ui:
@@ -309,6 +310,7 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.app
     networks: [core]
+    restart: on-failure
 
   # SocketIO Server
   al_socketio:
@@ -318,6 +320,7 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.socketsrv
     networks: [core]
+    restart: on-failure
 
   # Bootstrap the assemblyline system by creating an admin user
   al_first_time_setup:
