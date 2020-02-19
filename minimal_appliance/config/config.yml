@@ -28,6 +28,10 @@ core:
       host: redis
       port: 6379
 
+services:
+  image_variables:
+    REGISTRY: ${REGISTRY}
+
 datastore:
   hosts: ["elastic:${ELASTIC_PASSWORD}@elasticsearch"]
 

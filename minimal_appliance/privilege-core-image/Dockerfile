@@ -1,3 +1,4 @@
 ARG version
-FROM cccs/assemblyline-core:$version
+ARG registry
+FROM ${registry}cccs/assemblyline-core:$version
 USER root
