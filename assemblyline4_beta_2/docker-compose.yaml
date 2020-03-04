@@ -222,7 +222,7 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.app
-    networks: [core]
+    networks: [core, external]
     restart: on-failure
 
   # SocketIO Server
