@@ -1,0 +1,223 @@
+version: '3.7'
+
+services:
+  # Bootstrap the assemblyline system by creating an admin user
+  al_first_time_setup:
+    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/config/bootstrap.py:/tmp/bootstrap.py:ro
+    command: python3 /tmp/bootstrap.py
+    networks: [al_core]
+
+  # APKaye service
+  al_service_apkaye:
+    image: ${REGISTRY}cccs/assemblyline-service-apkaye:latest
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_svc]
+
+  # Beaver service
+  al_service_beaver:
+    image: ${REGISTRY}cccs/assemblyline-service-beaver:latest
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_svc]
+
+  # Characterize service
+  al_service_characterize:
+    image: ${REGISTRY}cccs/assemblyline-service-characterize:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Cleaver service
+  al_service_cleaver:
+    image: ${REGISTRY}cccs/assemblyline-service-cleaver:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Cuckoo service
+  al_service_cuckoo:
+    image: ${REGISTRY}cccs/assemblyline-service-cuckoo:latest
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_svc]
+
+  # Espresso service
+  al_service_espresso:
+    image: ${REGISTRY}cccs/assemblyline-service-espresso:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Extract service
+  al_service_extract:
+    image: ${REGISTRY}cccs/assemblyline-service-extract:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # iParse service
+  al_service_iparse:
+    image: ${REGISTRY}cccs/assemblyline-service-iparse:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # MetaDefender service
+  al_service_metadefender:
+    image: ${REGISTRY}cccs/assemblyline-service-metadefender:latest
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_svc]
+
+  # MetaPeek service
+  al_service_metapeek:
+    image: ${REGISTRY}cccs/assemblyline-service-metapeek:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # OleTools service
+  al_service_oletools:
+    image: ${REGISTRY}cccs/assemblyline-service-oletools:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # PDFiD service
+  al_service_pdfid:
+    image: ${REGISTRY}cccs/assemblyline-service-pdfid:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # PEFile service
+  al_service_pefile:
+    image: ${REGISTRY}cccs/assemblyline-service-pefile:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # PeePDF service
+  al_service_peepdf:
+    image: ${REGISTRY}cccs/assemblyline-service-peepdf:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Suricata service
+  al_service_suricata:
+    image: ${REGISTRY}cccs/assemblyline-service-suricata:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # TagCheck service
+  al_service_tagcheck:
+    image: ${REGISTRY}cccs/assemblyline-service-tagcheck:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # TorrentSlicer service
+  al_service_torrentslicer:
+    image: ${REGISTRY}cccs/assemblyline-service-torrentslicer:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Unpacker service
+  al_service_unpacker:
+    image: ${REGISTRY}cccs/assemblyline-service-unpacker:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # ViperMonkey service
+  al_service_vipermonkey:
+    image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # VirusTotal Dynamic service
+  al_service_virustotal_dynamic:
+    image: ${REGISTRY}cccs/assemblyline-service-virustotal-dynamic:latest
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_svc]
+
+  # VirusTotal Static service
+  al_service_virustotal_static:
+    image: ${REGISTRY}cccs/assemblyline-service-virustotal-static:latest
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_svc]
+
+  # Yara service
+  al_service_yara:
+    image: ${REGISTRY}cccs/assemblyline-service-yara:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+      - FILE_UPDATE_DIRECTORY=/mount/updates/
+    networks: [al_svc]
+
+networks:
+  al_core:
+    name: al_core
+    external: true
+  al_svc:
+    name: al_svc
+    external: true
+
+volumes:
+  filestore:
+  datastore:

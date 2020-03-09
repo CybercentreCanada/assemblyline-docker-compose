@@ -1,4 +1,4 @@
-version: '3.7'
+version: '2.4'
 
 services:
   # Dependancies
@@ -8,7 +8,7 @@ services:
       MINIO_ACCESS_KEY: al_storage_key
       MINIO_SECRET_KEY: "${FILESTORE_PASSWORD}"
     command: server /data
-    networks: [core]
+    networks: [al_core]
     volumes:
     - filestore:/data
     restart: on-failure
@@ -26,7 +26,7 @@ services:
         interval: 30s
         timeout: 30s
         retries: 3
-    networks: [core]
+    networks: [al_core]
     volumes:
       - datastore:/usr/share/elasticsearch/data
     restart: on-failure
@@ -39,7 +39,7 @@ services:
       timeout: 10s
       retries: 3
     restart: on-failure
-    networks: [core]
+    networks: [al_core]
 
   nginx:
     image: ${REGISTRY}sgaroncse/nginx-ssl:1.17.5
@@ -56,9 +56,12 @@ services:
       - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt:ro
       - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key:ro
     networks:
-      - core
-      - external
+      - al_core
+      - al_external
     restart: on-failure
+    depends_on:
+      al_ui:
+        condition: service_started
 
 
   # Start the core services
@@ -68,9 +71,12 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.alerter.run_alerter
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Expiry
   al_expiry:
@@ -78,9 +84,12 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.expiry.run_expiry
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Hearbeat manager
   al_heartbeat:
@@ -88,9 +97,12 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Workflow
   al_workflow:
@@ -98,9 +110,12 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.workflow.run_workflow
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Watcher
   al_watcher:
@@ -108,9 +123,12 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.watcher.run_watcher
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_scaler:
     build:
@@ -129,9 +147,12 @@ services:
       - ${UPDATE_DATA_PATH}:/mount/update_root/
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.scaler.run_scaler
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_updater:
     build:
@@ -151,26 +172,35 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     command: python3 -m assemblyline_core.updater.run_updater
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_dispatcher_files:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.dispatching.run_files
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_dispatcher_submissions:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.dispatching.run_submissions
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Ingester Processes
   al_ingester_ingest:
@@ -178,27 +208,36 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_ingest
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_ingester_internal:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_internal
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_ingester_submit:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_submit
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Service server
   al_service_server:
@@ -206,14 +245,17 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
-      - core
-      - svc
+      - al_core
+      - al_svc
     depends_on: [elasticsearch, redis]
     env_file: [".env"]
     environment:
       SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
     command: "python -m assemblyline_service_server.app"
     restart: on-failure
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # UI
   al_ui:
@@ -222,8 +264,11 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.app
-    networks: [core, external]
+    networks: [al_core, al_external]
     restart: on-failure
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # SocketIO Server
   al_socketio:
@@ -232,216 +277,21 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.socketsrv
-    networks: [core]
+    networks: [al_core]
     restart: on-failure
-
-  # Bootstrap the assemblyline system by creating an admin user
-  al_first_time_setup:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
-    env_file: [".env"]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-      - ${COMPOSE_ROOT}/config/bootstrap.py:/tmp/bootstrap.py:ro
-    command: python3 /tmp/bootstrap.py
-    networks: [core]
-
-  # APKaye service
-  alsvc_apkaye:
-    image: ${REGISTRY}cccs/assemblyline-service-apkaye:latest
-    environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'True'
-    networks: [svc]
-
-  # Beaver service
-  alsvc_beaver:
-    image: ${REGISTRY}cccs/assemblyline-service-beaver:latest
-    environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'True'
-    networks: [svc]
-
-  # Characterize service
-  alsvc_characterize:
-    image: ${REGISTRY}cccs/assemblyline-service-characterize:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # Cleaver service
-  alsvc_cleaver:
-    image: ${REGISTRY}cccs/assemblyline-service-cleaver:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # Cuckoo service
-  alsvc_cuckoo:
-    image: ${REGISTRY}cccs/assemblyline-service-cuckoo:latest
-    environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'True'
-    networks: [svc]
-
-  # Espresso service
-  alsvc_espresso:
-    image: ${REGISTRY}cccs/assemblyline-service-espresso:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # Extract service
-  alsvc_extract:
-    image: ${REGISTRY}cccs/assemblyline-service-extract:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # iParse service
-  alsvc_iparse:
-    image: ${REGISTRY}cccs/assemblyline-service-iparse:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # MetaDefender service
-  alsvc_metadefender:
-    image: ${REGISTRY}cccs/assemblyline-service-metadefender:latest
-    environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'True'
-    networks: [svc]
-
-  # MetaPeek service
-  alsvc_metapeek:
-    image: ${REGISTRY}cccs/assemblyline-service-metapeek:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # OleTools service
-  alsvc_oletools:
-    image: ${REGISTRY}cccs/assemblyline-service-oletools:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # PDFiD service
-  alsvc_pdfid:
-    image: ${REGISTRY}cccs/assemblyline-service-pdfid:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # PEFile service
-  alsvc_pefile:
-    image: ${REGISTRY}cccs/assemblyline-service-pefile:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # PeePDF service
-  alsvc_peepdf:
-    image: ${REGISTRY}cccs/assemblyline-service-peepdf:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # Suricata service
-  alsvc_suricata:
-    image: ${REGISTRY}cccs/assemblyline-service-suricata:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # TorrentSlicer service
-  alsvc_torrentslicer:
-    image: ${REGISTRY}cccs/assemblyline-service-torrentslicer:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # Unpacker service
-  alsvc_unpacker:
-    image: ${REGISTRY}cccs/assemblyline-service-unpacker:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # ViperMonkey service
-  alsvc_vipermonkey:
-    image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [svc]
-
-  # VirusTotal Dynamic service
-  alsvc_virustotal_dynamic:
-    image: ${REGISTRY}cccs/assemblyline-service-virustotal-dynamic:latest
-    environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'True'
-    networks: [svc]
-
-  # VirusTotal Static service
-  alsvc_virustotal_static:
-    image: ${REGISTRY}cccs/assemblyline-service-virustotal-static:latest
-    environment:
-      SERVICE_API_HOST: http://al_service_server:5003
-      SERVICE_API_KEY: ${SERVICE_API_KEY}
-      REGISTER_ONLY: 'True'
-    networks: [svc]
-
-  # Yara service
-  alsvc_yara:
-    image: ${REGISTRY}cccs/assemblyline-service-yara:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-      - FILE_UPDATE_DIRECTORY=/mount/updates/
-    networks: [svc]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
 networks:
-  core:
+  al_core:
+    name: al_core
     internal: true
-  external:
+  al_external:
+    name: al_external
     internal: false
-  svc:
-    name: svc
+  al_svc:
+    name: al_svc
     internal: true
 
 volumes:
