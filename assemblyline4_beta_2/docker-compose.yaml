@@ -263,7 +263,6 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    command: python3 -m assemblyline_ui.app
     networks: [al_core, al_external]
     restart: on-failure
     depends_on:
@@ -276,7 +275,6 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    command: python3 -m assemblyline_ui.socketsrv
     networks: [al_core]
     restart: on-failure
     depends_on:
