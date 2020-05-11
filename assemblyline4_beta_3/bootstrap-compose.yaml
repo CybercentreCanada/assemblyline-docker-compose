@@ -38,18 +38,18 @@ services:
       - REGISTER_ONLY=True
     networks: [al_svc]
 
-  # Cleaver service
-  al_service_cleaver:
-    image: ${REGISTRY}cccs/assemblyline-service-cleaver:latest
-    environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-    networks: [al_svc]
-
   # Cuckoo service
   al_service_cuckoo:
     image: ${REGISTRY}cccs/assemblyline-service-cuckoo:latest
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_svc]
+
+  # Deobfuscripter service
+  al_service_deobfuscripter:
+    image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:latest
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
@@ -65,9 +65,36 @@ services:
       - REGISTER_ONLY=True
     networks: [al_svc]
 
+  # EmlParser service
+  al_service_emlparser:
+    image: ${REGISTRY}cccs/assemblyline-service-emlparser:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
   # Extract service
   al_service_extract:
     image: ${REGISTRY}cccs/assemblyline-service-extract:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Floss service
+  al_service_floss:
+    image: ${REGISTRY}cccs/assemblyline-service-floss:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Frankenstrings service
+  al_service_frankenstrings:
+    image: ${REGISTRY}cccs/assemblyline-service-frankenstrings:latest
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
@@ -140,6 +167,15 @@ services:
   # Suricata service
   al_service_suricata:
     image: ${REGISTRY}cccs/assemblyline-service-suricata:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_svc]
+
+  # Swiffer service
+  al_service_swiffer:
+    image: ${REGISTRY}cccs/assemblyline-service-swiffer:latest
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
