@@ -42,7 +42,7 @@ services:
     networks: [core]
 
   nginx:
-    image: ${REGISTRY}sgaroncse/nginx-ssl:1.17.5
+    image: ${REGISTRY}cccs/nginx-ssl:1.17.5
     ports:
       - '443:443'
     environment:
