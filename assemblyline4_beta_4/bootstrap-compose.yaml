@@ -56,18 +56,18 @@ services:
       REGISTER_ONLY: 'True'
     networks: [al_registration]
 
-  # Espresso service
-  al_service_espresso:
-    image: ${REGISTRY}cccs/assemblyline-service-espresso:${SERVICE_VERSION}
+  # EmlParser service
+  al_service_emlparser:
+    image: ${REGISTRY}cccs/assemblyline-service-emlparser:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [al_registration]
 
-  # EmlParser service
-  al_service_emlparser:
-    image: ${REGISTRY}cccs/assemblyline-service-emlparser:${SERVICE_VERSION}
+  # Espresso service
+  al_service_espresso:
+    image: ${REGISTRY}cccs/assemblyline-service-espresso:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
@@ -158,6 +158,15 @@ services:
   # PeePDF service
   al_service_peepdf:
     image: ${REGISTRY}cccs/assemblyline-service-peepdf:${SERVICE_VERSION}
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_registration]
+
+  # Pixaxe service
+  al_service_pixaxe:
+    image: ${REGISTRY}cccs/assemblyline-service-pixaxe:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
