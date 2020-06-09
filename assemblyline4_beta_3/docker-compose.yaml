@@ -14,7 +14,7 @@ services:
     restart: on-failure
 
   elasticsearch:
-    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.7.0
     environment:
       - xpack.security.enabled=true
       - discovery.type=single-node
@@ -246,7 +246,7 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
       - al_core
-      - al_svc
+      - al_registration
     depends_on: [elasticsearch, redis]
     env_file: [".env"]
     environment:
@@ -288,8 +288,8 @@ networks:
   al_external:
     name: al_external
     internal: false
-  al_svc:
-    name: al_svc
+  al_registration:
+    name: al_registration
     internal: true
 
 volumes:

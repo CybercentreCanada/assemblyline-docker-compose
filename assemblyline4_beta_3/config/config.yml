@@ -45,3 +45,4 @@ logging:
 services:
   image_variables:
     REGISTRY: ${REGISTRY}
+  preferred_update_channel: beta
