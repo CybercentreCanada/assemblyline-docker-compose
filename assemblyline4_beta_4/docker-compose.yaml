@@ -172,7 +172,7 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     command: python3 -m assemblyline_core.updater.run_updater
-    networks: [al_core]
+    networks: [al_core, al_external]
     restart: on-failure
     depends_on:
       elasticsearch:
