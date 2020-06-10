@@ -137,7 +137,7 @@ services:
         version: ${CORE_VERSION}
         registry: ${REGISTRY}
       cache_from:
-        - cccs/assemblyline-core:${CORE_VERSION}
+        - ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
@@ -161,7 +161,7 @@ services:
         version: ${CORE_VERSION}
         registry: ${REGISTRY}
       cache_from:
-        - cccs/assemblyline-core:${CORE_VERSION}
+        - ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
