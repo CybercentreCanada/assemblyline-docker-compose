@@ -151,7 +151,7 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     command: python3 -m assemblyline_core.updater.run_updater
-    networks: [core]
+    networks: [core, external]
     restart: on-failure
 
   al_dispatcher_files:
@@ -207,7 +207,7 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
       - core
-      - svc
+      - registration
     depends_on: [elasticsearch, redis]
     env_file: [".env"]
     environment:
@@ -237,11 +237,12 @@ services:
 
 networks:
   core:
+    name: al_core
     internal: true
   external:
     internal: false
-  svc:
-    name: svc
+  registration:
+    name: al_registration
     internal: true
 
 volumes:
