@@ -25,20 +25,26 @@ https://cybercentrecanada.github.io/assemblyline4_docs/
 ##### 1. Install docker and docker-compose on a linux system
 ##### 2. Clone this repository
 
-    git clone git@bitbucket.org:cse-assemblyline/assemblyline_docker_compose.git
+    git clone https://github.com/CybercentreCanada/assemblyline-docker-compose.git
 
 ##### 3 Choose deployment type
 
 Choose one of the minimal or full deployments. The rest of the commands 
 and paths given will be relative to the directory specific to the deployment
 type you are doing. 
+    
+    cd assemblyline-docker-compose/minimal_appliance
 
-##### 3. Copy in an existing or generate a self signed certificate into the `./config` directory in the cloned repository
+or
+
+    cd assemblyline-docker-compose/full_appliance
+
+##### 4. Copy in an existing or generate a self signed certificate into the `./config` directory in the cloned repository
     
     openssl req -nodes -x509 -newkey rsa:4096 -keyout ./config/nginx.key -out ./config/nginx.crt -days 365 -subj "/C=CA/ST=Ontario/L=Ottawa/O=CCCS/CN=assemblyline.local"
     
-##### 4. Set passwords and paths in `./.env` and `./config/bootstrap.py`
-##### 5. Launch the system
+##### 5. Set passwords and paths in `./.env` and `./config/bootstrap.py`
+##### 6. Launch the system
     
 Pull the containers and launch the core system.
     
