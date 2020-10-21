@@ -38,6 +38,15 @@ services:
       - REGISTER_ONLY=True
     networks: [al_registration]
 
+  # ConfigExtractor service
+  al_service_configextractor:
+    image: ${REGISTRY}cccs/assemblyline-service-configextractor:${SERVICE_VERSION}
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_registration]
+
   # Cuckoo service
   al_service_cuckoo:
     image: ${REGISTRY}cccs/assemblyline-service-cuckoo:${SERVICE_VERSION}
@@ -255,6 +264,14 @@ services:
       - FILE_UPDATE_DIRECTORY=/mount/updates/
     networks: [al_registration]
 
+  # XLMMacroDeobfuscator service
+  al_service_xlmmacrodeobfuscator:
+    image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_registration]
 networks:
   al_core:
     name: al_core
