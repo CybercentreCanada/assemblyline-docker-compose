@@ -149,6 +149,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.alerter.run_alerter
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # Expiry
   al_expiry:
@@ -159,6 +161,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.expiry.run_expiry
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # Metrics aggregator
   al_metrics:
@@ -179,6 +183,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # Workflow
   al_workflow:
@@ -189,6 +195,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.workflow.run_workflow
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # Watcher
   al_watcher:
@@ -199,6 +207,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.watcher.run_watcher
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   al_scaler:
     build:
@@ -220,6 +230,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.scaler.run_scaler
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   al_updater:
     build:
@@ -241,6 +253,8 @@ services:
     command: python3 -m assemblyline_core.updater.run_updater
     networks: [core, external]
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   al_dispatcher_files:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -250,6 +264,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.dispatching.run_files
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   al_dispatcher_submissions:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -259,6 +275,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.dispatching.run_submissions
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # Ingester Processes
   al_ingester_ingest:
@@ -269,6 +287,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_ingest
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   al_ingester_internal:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -278,6 +298,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_internal
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   al_ingester_submit:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -287,6 +309,8 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.ingester.run_submit
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # Service server
   al_service_server:
@@ -302,6 +326,8 @@ services:
       SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
     command: "python -m assemblyline_service_server.app"
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # UI
   al_ui:
@@ -312,6 +338,8 @@ services:
     command: python3 -m assemblyline_ui.app
     networks: [core]
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # SocketIO Server
   al_socketio:
@@ -322,6 +350,8 @@ services:
     command: python3 -m assemblyline_ui.socketsrv
     networks: [core]
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
 networks:
   core:
