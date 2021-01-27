@@ -227,6 +227,15 @@ services:
       - REGISTER_ONLY=True
     networks: [al_registration]
 
+  # Unpacme service
+  al_service_unpacme:
+    image: ${REGISTRY}cccs/assemblyline-service-unpacme:${SERVICE_VERSION}
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - REGISTER_ONLY=True
+    networks: [al_registration]
+
   # ViperMonkey service
   al_service_vipermonkey:
     image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:${SERVICE_VERSION}
@@ -272,6 +281,7 @@ services:
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [al_registration]
+
 networks:
   al_core:
     name: al_core
