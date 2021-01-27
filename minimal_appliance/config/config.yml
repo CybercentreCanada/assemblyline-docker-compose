@@ -45,3 +45,6 @@ logging:
 services:
   image_variables:
     REGISTRY: ${REGISTRY}  
+
+ui:
+  ui4_path: /next/

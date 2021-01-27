@@ -128,6 +128,7 @@ services:
       - DOLLAR=$$
       - UI_HOST=al_ui
       - SOCKET_HOST=al_socketio
+      - FRONTEND_HOST=al_uinext
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
     volumes:
@@ -336,7 +337,7 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     command: python3 -m assemblyline_ui.app
-    networks: [core]
+    networks: [core, external]
     restart: on-failure
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
@@ -352,6 +353,13 @@ services:
     restart: on-failure
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+
+  # Future Assemblyline Frontend
+  al_uinext:
+    image: ${REGISTRY}sgaroncse/ui-next:latest
+    env_file: [".env"]
+    networks: [core]
+    restart: on-failure
 
 networks:
   core:

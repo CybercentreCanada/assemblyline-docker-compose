@@ -49,6 +49,7 @@ services:
       - DOLLAR=$$
       - UI_HOST=al_ui
       - SOCKET_HOST=al_socketio
+      - FRONTEND_HOST=al_uinext
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
       - TEMPLATE=minimal
@@ -264,6 +265,13 @@ services:
     restart: on-failure
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+
+  # Future Assemblyline Frontend
+  al_uinext:
+    image: ${REGISTRY}sgaroncse/ui-next:latest
+    env_file: [".env"]
+    networks: [core]
+    restart: on-failure
 
 networks:
   core:
