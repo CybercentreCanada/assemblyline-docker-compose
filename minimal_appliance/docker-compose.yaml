@@ -56,6 +56,7 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt:ro
       - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key:ro
+      - ${COMPOSE_ROOT}/config/nginx.template:/opt/minimal.template
     networks:
       - core
       - external
