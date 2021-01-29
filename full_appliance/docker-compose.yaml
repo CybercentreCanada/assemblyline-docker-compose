@@ -41,8 +41,11 @@ services:
       ELASTIC_HOSTS: http://elasticsearch:9200
       ELASTIC_USERNAME: elastic
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    command: /bin/bash -c "/usr/local/bin/docker-entrypoint -e -strict.perms=false"
     depends_on:
       elasticsearch:
+        condition: service_healthy
+      kibana:
         condition: service_healthy
     networks:
       core: {}
@@ -81,6 +84,8 @@ services:
     command: filebeat -e -strict.perms=false
     depends_on:
       elasticsearch:
+        condition: service_healthy
+      kibana:
         condition: service_healthy
     networks: [core]
     restart: on-failure
