@@ -1,5 +1,12 @@
 apm-server:
   host: "0.0.0.0:8200"
+  kibana:
+    enabled: true
+    host: kibana:5601
+    path: kibana
+    protocol: http
+    username: ${ELASTIC_USERNAME}
+    password: ${ELASTIC_PASSWORD}
 
 logging:
   level: warning
@@ -13,6 +20,7 @@ output.elasticsearch:
 setup.template.settings:
   index.number_of_shards: 1
   index.number_of_replicas: 0
+  
 setup.kibana:
   host: "http://kibana:5601"
   username: ${ELASTIC_USERNAME}
