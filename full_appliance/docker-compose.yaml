@@ -147,6 +147,16 @@ services:
       - core
       - external
     restart: on-failure
+    depends_on:
+      kibana:
+        condition: service_started
+      al_socketio:
+        condition: service_started
+      al_ui:
+        condition: service_started
+      al_uinext:
+        condition: service_started
+
 
 
   # Start the core services
