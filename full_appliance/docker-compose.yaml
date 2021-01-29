@@ -26,7 +26,7 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     healthcheck:
-      test: ["CMD", "curl", "-s", "-f", "http://localhost:5601/"]
+      test: ["CMD-SHELL", "curl --silent --fail -u elastic:$$ELASTIC_PASSWORD http://localhost:5601/"]
       interval: 30s
       timeout: 10s
       retries: 5
