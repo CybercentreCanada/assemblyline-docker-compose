@@ -1,4 +1,4 @@
-version: '3.7'
+version: '2.4'
 
 services:
   # Dependancies
@@ -14,18 +14,19 @@ services:
     restart: on-failure
 
   kibana:
-    image: ${REGISTRY}docker.elastic.co/kibana/kibana:7.6.0
+    image: ${REGISTRY}docker.elastic.co/kibana/kibana:7.8.0
     environment:
       SERVER_NAME: localhost
       ELASTIC_HOSTS: http://elasticsearch:9200
       ELASTIC_USERNAME: elastic
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     volumes:
       - ${COMPOSE_ROOT}/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     healthcheck:
-      test: ["CMD", "curl", "-s", "-f", "http://localhost:5601/"]
+      test: ["CMD-SHELL", "curl --silent --fail -u elastic:$$ELASTIC_PASSWORD http://localhost:5601/kibana"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -33,21 +34,25 @@ services:
     restart: on-failure
 
   apm_server:
-    image: ${REGISTRY}docker.elastic.co/apm/apm-server:7.6.0
+    image: ${REGISTRY}docker.elastic.co/apm/apm-server:7.8.0
     volumes:
       - ${COMPOSE_ROOT}/config/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200
       ELASTIC_USERNAME: elastic
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    command: /bin/bash -c "/usr/local/bin/docker-entrypoint -e -strict.perms=false"
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
     networks:
       core: {}
     restart: on-failure
 
   elasticsearch:
-    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.8.0
     environment:
       - xpack.security.enabled=true
       - discovery.type=single-node
@@ -78,12 +83,15 @@ services:
       - ${COMPOSE_ROOT}/config/filebeat_policy.json:/usr/share/filebeat/filebeat_policy.json:ro
     command: filebeat -e -strict.perms=false
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
     networks: [core]
     restart: on-failure
 
   metricbeat:
-    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:7.6.0
+    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:7.8.0
     user: root
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200
@@ -94,7 +102,11 @@ services:
       - ${COMPOSE_ROOT}/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
       - ${COMPOSE_ROOT}/config/metricbeat_policy.json:/usr/share/metricbeat/metricbeat_policy.json:ro
     command: metricbeat -e --strict.perms=false
-    depends_on: [elasticsearch, kibana]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
     networks: [core]
     restart: on-failure
 
@@ -128,15 +140,28 @@ services:
       - DOLLAR=$$
       - UI_HOST=al_ui
       - SOCKET_HOST=al_socketio
+      - FRONTEND_HOST=al_uinext
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
+      - TEMPLATE=minimal
     volumes:
       - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt:ro
       - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key:ro
+      - ${COMPOSE_ROOT}/config/nginx.template:/opt/minimal.template
     networks:
       - core
       - external
     restart: on-failure
+    depends_on:
+      kibana:
+        condition: service_started
+      al_socketio:
+        condition: service_started
+      al_ui:
+        condition: service_started
+      al_uinext:
+        condition: service_started
+
 
 
   # Start the core services
@@ -151,6 +176,9 @@ services:
     command: python -m assemblyline_core.alerter.run_alerter
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Expiry
   al_expiry:
@@ -163,6 +191,9 @@ services:
     command: python -m assemblyline_core.expiry.run_expiry
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Metrics aggregator
   al_metrics:
@@ -173,6 +204,9 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_metrics_aggregator
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Hearbeat manager
   al_heartbeat:
@@ -185,6 +219,9 @@ services:
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Workflow
   al_workflow:
@@ -197,6 +234,9 @@ services:
     command: python -m assemblyline_core.workflow.run_workflow
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Watcher
   al_watcher:
@@ -209,6 +249,9 @@ services:
     command: python -m assemblyline_core.watcher.run_watcher
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_scaler:
     build:
@@ -232,6 +275,9 @@ services:
     command: python -m assemblyline_core.scaler.run_scaler
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_updater:
     build:
@@ -255,6 +301,9 @@ services:
     restart: on-failure
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_dispatcher_files:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -266,6 +315,9 @@ services:
     command: python -m assemblyline_core.dispatching.run_files
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_dispatcher_submissions:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -277,6 +329,9 @@ services:
     command: python -m assemblyline_core.dispatching.run_submissions
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Ingester Processes
   al_ingester_ingest:
@@ -289,6 +344,9 @@ services:
     command: python -m assemblyline_core.ingester.run_ingest
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_ingester_internal:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -300,6 +358,9 @@ services:
     command: python -m assemblyline_core.ingester.run_internal
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   al_ingester_submit:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -311,6 +372,9 @@ services:
     command: python -m assemblyline_core.ingester.run_submit
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # Service server
   al_service_server:
@@ -320,14 +384,15 @@ services:
     networks:
       - core
       - registration
-    depends_on: [elasticsearch, redis]
     env_file: [".env"]
     environment:
       SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
-    command: "python -m assemblyline_service_server.app"
     restart: on-failure
-    healthcheck:
-      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   # UI
   al_ui:
@@ -335,11 +400,11 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    command: python3 -m assemblyline_ui.app
-    networks: [core]
+    networks: [core, external]
     restart: on-failure
-    healthcheck:
-      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # SocketIO Server
   al_socketio:
@@ -347,11 +412,18 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    command: python3 -m assemblyline_ui.socketsrv
     networks: [core]
     restart: on-failure
-    healthcheck:
-      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  # Future Assemblyline Frontend
+  al_uinext:
+    image: ${REGISTRY}sgaroncse/ui-next:latest
+    env_file: [".env"]
+    networks: [core]
+    restart: on-failure
 
 networks:
   core:
