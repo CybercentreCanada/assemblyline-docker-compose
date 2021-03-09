@@ -42,7 +42,7 @@ services:
     networks: [core]
 
   nginx:
-    image: ${REGISTRY}cccs/nginx-ssl
+    image: ${REGISTRY}cccs/nginx-ssl-frontend
     ports:
       - '443:443'
     environment:
