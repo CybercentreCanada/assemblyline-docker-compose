@@ -42,21 +42,20 @@ services:
     networks: [core]
 
   nginx:
-    image: ${REGISTRY}cccs/nginx-ssl
+    image: ${REGISTRY}cccs/nginx-ssl-frontend
     ports:
       - '443:443'
     environment:
       - DOLLAR=$$
       - UI_HOST=al_ui
       - SOCKET_HOST=al_socketio
-      - FRONTEND_HOST=al_uinext
+      - FRONTEND_HOST=al_ui_frontend
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
       - TEMPLATE=minimal
     volumes:
       - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt:ro
       - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key:ro
-      - ${COMPOSE_ROOT}/config/nginx.template:/opt/minimal.template
     networks:
       - core
       - external
@@ -282,9 +281,9 @@ services:
       elasticsearch:
         condition: service_healthy
 
-  # Future Assemblyline Frontend
-  al_uinext:
-    image: ${REGISTRY}sgaroncse/ui-next:latest
+  # Assemblyline Frontend
+  al_ui_frontend:
+    image: ${REGISTRY}cccs/assemblyline-ui-frontend:${UI_FRONTEND_VERSION}
     env_file: [".env"]
     networks: [core]
     restart: on-failure
