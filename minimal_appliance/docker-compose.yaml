@@ -65,8 +65,6 @@ services:
         condition: service_started
       al_ui:
         condition: service_started
-      al_uinext:
-        condition: service_started
 
 
   # Start the core services
