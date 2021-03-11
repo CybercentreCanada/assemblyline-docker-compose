@@ -136,6 +136,7 @@ services:
         registry: ${REGISTRY}
       cache_from:
         - cccs/assemblyline-core:${CORE_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_al_updater:${CORE_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
@@ -162,6 +163,7 @@ services:
         registry: ${REGISTRY}
       cache_from:
         - cccs/assemblyline-core:${CORE_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_al_scaler:${CORE_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
