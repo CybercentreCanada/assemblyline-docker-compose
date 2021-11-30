@@ -20,6 +20,15 @@ services:
       REGISTER_ONLY: 'True'
     networks: [al_registration]
 
+  # Antivirus service
+  al_service_antivirus:
+    image: ${REGISTRY}cccs/assemblyline-service-antivirus:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_registration]
+
   # Beaver service
   al_service_beaver:
     image: ${REGISTRY}cccs/assemblyline-service-beaver:${SERVICE_VERSION}
@@ -119,6 +128,15 @@ services:
       - REGISTER_ONLY=True
     networks: [al_registration]
 
+  # JsJaws service
+  al_service_jsjaws:
+    image: ${REGISTRY}cccs/assemblyline-service-jsjaws:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_registration]
+
   # MetaDefender service
   al_service_metadefender:
     image: ${REGISTRY}cccs/assemblyline-service-metadefender:${SERVICE_VERSION}
@@ -144,6 +162,15 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
+    networks: [al_registration]
+
+  # Overpower service
+  al_service_overpower:
+    image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
     networks: [al_registration]
 
   # PDFiD service
@@ -180,6 +207,24 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
+    networks: [al_registration]
+
+  # Safelist service
+  al_service_safelist:
+    image: ${REGISTRY}cccs/assemblyline-service-safelist:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [al_registration]
+
+  # Sigma service
+  al_service_sigma:
+    image: ${REGISTRY}cccs/assemblyline-service-sigma:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
     networks: [al_registration]
 
   # Suricata service
