@@ -141,7 +141,7 @@ services:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
     depends_on:
       elasticsearch:
-        condition: service_healthy# Workflow
+        condition: service_healthy
 
   # Workflow
   al_workflow:
