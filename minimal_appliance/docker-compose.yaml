@@ -171,7 +171,7 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
-      UI_SERVER: http://al_ui:5000
+      UI_SERVER: http://al_internal_ui:5000
       SERVICE_API_HOST: http://al_service_server:5003
     volumes:
       - config:/mount/config:rw
@@ -199,7 +199,7 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
-      UI_SERVER: http://al_ui:5000
+      UI_SERVER: http://al_internal_ui:5000
       SERVICE_API_HOST: http://al_service_server:5003
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -260,6 +260,20 @@ services:
     environment:
       SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
     restart: on-failure
+    
+  # UI
+  al_internal_ui:
+    image: ${REGISTRY}cccs/assemblyline-ui:${UI_VERSION}
+    env_file: [".env"]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core, external]
+    environment:
+      AL_UNSECURED_UI: "true"
+    restart: on-failure
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
     
   # UI
   al_ui:
