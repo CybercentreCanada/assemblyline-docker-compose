@@ -185,6 +185,7 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  # Updater
   al_updater:
     build:
       context: privilege-core-image

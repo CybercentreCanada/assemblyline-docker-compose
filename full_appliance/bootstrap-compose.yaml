@@ -312,10 +312,9 @@ services:
   al_service_yara:
     image: ${REGISTRY}cccs/assemblyline-service-yara:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-      - FILE_UPDATE_DIRECTORY=/mount/updates/
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
     networks: [al_registration]
 
   # XLMMacroDeobfuscator service
