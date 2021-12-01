@@ -46,7 +46,7 @@ logging:
   log_to_syslog: false
 
 services:
-  # Reverse only 1/8th of the normal 0.6 value
-  cpu_reservation: 0.075
+  # Reverse very little amount of CPU per service
+  cpu_reservation: 0.1
   image_variables:
     REGISTRY: ${REGISTRY}
