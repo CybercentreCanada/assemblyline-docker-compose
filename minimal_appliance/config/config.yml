@@ -10,7 +10,7 @@ core:
       host: redis
       port: 6379
   scaler:
-    cpu_overallocation: 1
+    cpu_overallocation: 8
     service_defaults:
       backlog: 10
       shrink: 20
@@ -46,7 +46,5 @@ logging:
   log_to_syslog: false
 
 services:
-  # Reverse very little amount of CPU per service
-  cpu_reservation: 0.1
   image_variables:
     REGISTRY: ${REGISTRY}
