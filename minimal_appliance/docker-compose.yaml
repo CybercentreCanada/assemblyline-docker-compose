@@ -256,7 +256,7 @@ services:
         condition: service_started
     env_file: [".env"]
     environment:
-      SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
     restart: on-failure
     
   # UI
