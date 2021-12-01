@@ -364,6 +364,8 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core, external]
     environment:
+      WORKER: 1
+      THREAD: 2
       AL_UNSECURED_UI: "true"
     restart: on-failure
     depends_on:
