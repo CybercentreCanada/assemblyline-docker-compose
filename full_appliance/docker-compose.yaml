@@ -267,7 +267,7 @@ services:
       UI_SERVER: http://al_internal_ui:5000
       SERVICE_API_HOST: http://al_service_server:5003
     volumes:
-      - config:/mount/config:rw
+      - config_data:/mount/config:rw
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     networks: [core]
@@ -415,5 +415,4 @@ volumes:
   filestore:
   datastore:
   redis:
-  config:
-    name: al_config_data
+  config_data:
