@@ -38,6 +38,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    command: redis-server --io-threads 2
     restart: on-failure
     networks: [core]
 

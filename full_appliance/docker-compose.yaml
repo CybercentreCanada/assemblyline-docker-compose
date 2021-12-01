@@ -119,6 +119,7 @@ services:
       retries: 3
     volumes:
       - redis:/data
+    command: redis-server --io-threads 2
     restart: on-failure
     networks: [core]
 
