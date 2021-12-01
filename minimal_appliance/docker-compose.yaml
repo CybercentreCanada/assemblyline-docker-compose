@@ -66,7 +66,6 @@ services:
       al_ui:
         condition: service_started
 
-
   # Start the core services
   # Alerter
   al_alerter:

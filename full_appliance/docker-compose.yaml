@@ -117,16 +117,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    restart: on-failure
-    networks: [core]
-
-  redis-persist:
-    image: ${REGISTRY}redis
-    healthcheck:
-      test: ["CMD", "redis-cli","ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     volumes:
       - redis:/data
     restart: on-failure
@@ -157,8 +147,6 @@ services:
         condition: service_started
       al_ui:
         condition: service_started
-
-
 
   # Start the core services
   # Alerter
