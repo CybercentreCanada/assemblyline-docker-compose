@@ -27,9 +27,6 @@ core:
     persistent:
       host: redis
       port: 6379
-    pubsub:
-      host: redis
-      port: 6379
 
 datastore:
   hosts: ["elastic:${ELASTIC_PASSWORD}@elasticsearch"]
