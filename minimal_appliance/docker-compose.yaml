@@ -38,6 +38,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    volumes:
+      - redis:/data
     command: redis-server --io-threads 2
     restart: on-failure
     networks: [core]
@@ -320,3 +322,4 @@ volumes:
   filestore:
   datastore:
   config_data:
+  redis:
