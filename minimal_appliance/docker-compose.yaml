@@ -169,6 +169,7 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
+      AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
       UI_SERVER: http://al_internal_ui:5000
       SERVICE_API_HOST: http://al_service_server:5003
     volumes:
@@ -197,6 +198,7 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
+      AL_REGISTRATION_NETWORK: ${COMPOSE_PROJECT_NAME}_registration
       UI_SERVER: http://al_internal_ui:5000
       SERVICE_API_HOST: http://al_service_server:5003
     volumes:
@@ -308,12 +310,10 @@ services:
 
 networks:
   core:
-    name: al_core
     internal: true
   external:
     internal: false
   registration:
-    name: al_registration
     internal: true
 
 volumes:
