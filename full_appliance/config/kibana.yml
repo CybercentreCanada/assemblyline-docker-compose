@@ -8,3 +8,4 @@ server.basePath: /kibana
 server.rewriteBasePath: true
 server.name: kibana
 server.host: "0"
+server.publicBaseUrl: https://localhost/kibana

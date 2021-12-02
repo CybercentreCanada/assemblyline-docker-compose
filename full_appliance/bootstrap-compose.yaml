@@ -9,7 +9,7 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/config/bootstrap.py:/tmp/bootstrap.py:ro
     command: python3 /tmp/bootstrap.py
-    networks: [al_core]
+    networks: [core]
 
   # APKaye service
   al_service_apkaye:
@@ -18,7 +18,16 @@ services:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
-    networks: [al_registration]
+    networks: [registration]
+
+  # Antivirus service
+  al_service_antivirus:
+    image: ${REGISTRY}cccs/assemblyline-service-antivirus:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [registration]
 
   # Beaver service
   al_service_beaver:
@@ -27,7 +36,7 @@ services:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
-    networks: [al_registration]
+    networks: [registration]
 
   # Characterize service
   al_service_characterize:
@@ -36,7 +45,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # ConfigExtractor service
   al_service_configextractor:
@@ -45,7 +54,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Cuckoo service
   al_service_cuckoo:
@@ -54,7 +63,7 @@ services:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
-    networks: [al_registration]
+    networks: [registration]
 
   # Deobfuscripter service
   al_service_deobfuscripter:
@@ -63,7 +72,7 @@ services:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
-    networks: [al_registration]
+    networks: [registration]
 
   # EmlParser service
   al_service_emlparser:
@@ -72,7 +81,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Espresso service
   al_service_espresso:
@@ -81,7 +90,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Extract service
   al_service_extract:
@@ -90,7 +99,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Floss service
   al_service_floss:
@@ -99,7 +108,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Frankenstrings service
   al_service_frankenstrings:
@@ -108,7 +117,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # iParse service
   al_service_iparse:
@@ -117,7 +126,16 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
+
+  # JsJaws service
+  al_service_jsjaws:
+    image: ${REGISTRY}cccs/assemblyline-service-jsjaws:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [registration]
 
   # MetaDefender service
   al_service_metadefender:
@@ -126,7 +144,7 @@ services:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
-    networks: [al_registration]
+    networks: [registration]
 
   # MetaPeek service
   al_service_metapeek:
@@ -135,7 +153,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # OleTools service
   al_service_oletools:
@@ -144,7 +162,16 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
+
+  # Overpower service
+  al_service_overpower:
+    image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [registration]
 
   # PDFiD service
   al_service_pdfid:
@@ -153,7 +180,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # PEFile service
   al_service_pefile:
@@ -162,7 +189,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # PeePDF service
   al_service_peepdf:
@@ -171,7 +198,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Pixaxe service
   al_service_pixaxe:
@@ -180,7 +207,25 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
+
+  # Safelist service
+  al_service_safelist:
+    image: ${REGISTRY}cccs/assemblyline-service-safelist:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [registration]
+
+  # Sigma service
+  al_service_sigma:
+    image: ${REGISTRY}cccs/assemblyline-service-sigma:${SERVICE_VERSION}
+    environment:
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [registration]
 
   # Suricata service
   al_service_suricata:
@@ -189,7 +234,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Swiffer service
   al_service_swiffer:
@@ -198,7 +243,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # TagCheck service
   al_service_tagcheck:
@@ -207,7 +252,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # TorrentSlicer service
   al_service_torrentslicer:
@@ -216,7 +261,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Unpacker service
   al_service_unpacker:
@@ -225,7 +270,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # Unpacme service
   al_service_unpacme:
@@ -234,7 +279,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # ViperMonkey service
   al_service_vipermonkey:
@@ -243,7 +288,7 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
   # VirusTotal Dynamic service
   al_service_virustotal_dynamic:
@@ -252,7 +297,7 @@ services:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
-    networks: [al_registration]
+    networks: [registration]
 
   # VirusTotal Static service
   al_service_virustotal_static:
@@ -261,17 +306,16 @@ services:
       SERVICE_API_HOST: http://al_service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
-    networks: [al_registration]
+    networks: [registration]
 
   # Yara service
   al_service_yara:
     image: ${REGISTRY}cccs/assemblyline-service-yara:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
-      - SERVICE_API_KEY=${SERVICE_API_KEY}
-      - REGISTER_ONLY=True
-      - FILE_UPDATE_DIRECTORY=/mount/updates/
-    networks: [al_registration]
+      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+      REGISTER_ONLY: 'True'
+    networks: [registration]
 
   # XLMMacroDeobfuscator service
   al_service_xlmmacrodeobfuscator:
@@ -280,14 +324,14 @@ services:
       - SERVICE_API_HOST=http://al_service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
-    networks: [al_registration]
+    networks: [registration]
 
 networks:
-  al_core:
-    name: al_core
+  core:
+    name: ${COMPOSE_PROJECT_NAME}_core
     external: true
-  al_registration:
-    name: al_registration
+  registration:
+    name: ${COMPOSE_PROJECT_NAME}_registration
     external: true
 
 volumes:

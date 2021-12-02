@@ -14,7 +14,7 @@ services:
     restart: on-failure
 
   kibana:
-    image: ${REGISTRY}docker.elastic.co/kibana/kibana:7.8.0
+    image: ${REGISTRY}docker.elastic.co/kibana/kibana:7.15.1
     environment:
       SERVER_NAME: localhost
       ELASTIC_HOSTS: http://elasticsearch:9200
@@ -34,7 +34,7 @@ services:
     restart: on-failure
 
   apm_server:
-    image: ${REGISTRY}docker.elastic.co/apm/apm-server:7.8.0
+    image: ${REGISTRY}docker.elastic.co/apm/apm-server:7.15.1
     volumes:
       - ${COMPOSE_ROOT}/config/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     environment:
@@ -52,13 +52,13 @@ services:
     restart: on-failure
 
   elasticsearch:
-    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.15.1
     environment:
       - xpack.security.enabled=true
       - discovery.type=single-node
       - logger.level=WARN
       - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
-      - "ES_JAVA_OPTS=-Xms512m -Xmx${ELASTIC_MAX_MEM}m"
+      - "ES_JAVA_OPTS=-Xms${ELASTIC_MEM}m -Xmx${ELASTIC_MEM}m"
     healthcheck:
         test: ["CMD-SHELL", "curl --silent --fail -u elastic:${ELASTIC_PASSWORD} localhost:9200/_cluster/health || exit 1"]
         interval: 30s
@@ -70,7 +70,7 @@ services:
     restart: on-failure
 
   filebeat:
-    image: ${REGISTRY}docker.elastic.co/beats/filebeat:7.3.0
+    image: ${REGISTRY}docker.elastic.co/beats/filebeat:7.15.1
     user: root
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200
@@ -91,7 +91,7 @@ services:
     restart: on-failure
 
   metricbeat:
-    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:7.8.0
+    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:7.15.1
     user: root
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200
@@ -117,18 +117,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    restart: on-failure
-    networks: [core]
-
-  redis-persist:
-    image: ${REGISTRY}redis
-    healthcheck:
-      test: ["CMD", "redis-cli","ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     volumes:
       - redis:/data
+    command: redis-server --io-threads 2
     restart: on-failure
     networks: [core]
 
@@ -157,8 +148,6 @@ services:
         condition: service_started
       al_ui:
         condition: service_started
-
-
 
   # Start the core services
   # Alerter
@@ -219,6 +208,34 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  # Plumber 
+  al_plumber:
+    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core]
+    restart: on-failure
+    command: python -m assemblyline_core.plumber.run_plumber
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  # Statistics aggregator
+  al_statistics:
+    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    env_file: [".env"]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core]
+    restart: on-failure
+    command: python -m assemblyline_core.metrics.run_statistics_aggregator
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
   # Workflow
   al_workflow:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
@@ -234,34 +251,8 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  # Scaler
   al_scaler:
-    build:
-      context: privilege-core-image
-      args:
-        version: ${CORE_VERSION}
-        registry: ${REGISTRY}
-      cache_from:
-        - cccs/assemblyline-core:${CORE_VERSION}
-    image: ${COMPOSE_PROJECT_NAME}_al_updater:${CORE_VERSION}
-    privileged: true
-    env_file: [".env"]
-    environment:
-      FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
-      FILE_UPDATE_DIRECTORY: /mount/update_root/
-    volumes:
-      - ${UPDATE_DATA_PATH}:/mount/update_root/
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
-    networks: [core]
-    restart: on-failure
-    command: python -m assemblyline_core.scaler.run_scaler
-    healthcheck:
-      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-
-  al_updater:
     build:
       context: privilege-core-image
       args:
@@ -273,10 +264,39 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
-      FILE_UPDATE_VOLUME: ${UPDATE_DATA_PATH}
-      FILE_UPDATE_DIRECTORY: /mount/update_root/
+      AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
+      UI_SERVER: http://al_internal_ui:5000
+      SERVICE_API_HOST: http://al_service_server:5003
     volumes:
-      - ${UPDATE_DATA_PATH}:/mount/update_root/
+      - config_data:/mount/config:rw
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
+    networks: [core]
+    restart: on-failure
+    command: python -m assemblyline_core.scaler.run_scaler
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  # Updater
+  al_updater:
+    build:
+      context: privilege-core-image
+      args:
+        version: ${CORE_VERSION}
+        registry: ${REGISTRY}
+      cache_from:
+        - cccs/assemblyline-core:${CORE_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_al_updater:${CORE_VERSION}
+    privileged: true
+    env_file: [".env"]
+    environment:
+      AL_REGISTRATION_NETWORK: ${COMPOSE_PROJECT_NAME}_registration
+      UI_SERVER: http://al_internal_ui:5000
+      SERVICE_API_HOST: http://al_service_server:5003
+    volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     command: python3 -m assemblyline_core.updater.run_updater
@@ -288,6 +308,7 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  # Dispatcher
   al_dispatcher:
     image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
     env_file: [".env"]
@@ -327,13 +348,29 @@ services:
       - registration
     env_file: [".env"]
     environment:
-      SERVICE_API_AUTH_KEY: ${SERVICE_API_KEY}
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
     restart: on-failure
     depends_on:
       elasticsearch:
         condition: service_healthy
       redis:
         condition: service_started
+    
+  # Internal UI
+  al_internal_ui:
+    image: ${REGISTRY}cccs/assemblyline-ui:${UI_VERSION}
+    env_file: [".env"]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core, external]
+    environment:
+      WORKERS: 1
+      THREADS: 2
+      AL_UNSECURED_UI: "true"
+    restart: on-failure
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   # UI
   al_ui:
@@ -368,15 +405,14 @@ services:
 
 networks:
   core:
-    name: al_core
     internal: true
   external:
     internal: false
   registration:
-    name: al_registration
     internal: true
 
 volumes:
   filestore:
   datastore:
   redis:
+  config_data:
