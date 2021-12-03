@@ -72,7 +72,7 @@ services:
   # Start the core services
   # Alerter
   al_alerter:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -87,7 +87,7 @@ services:
 
   # Expiry
   al_expiry:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -102,7 +102,7 @@ services:
 
   # Hearbeat manager
   al_heartbeat:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -117,7 +117,7 @@ services:
 
   # Plumber 
   al_plumber:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -132,7 +132,7 @@ services:
 
   # Statistics aggregator
   al_statistics:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -145,7 +145,7 @@ services:
 
   # Workflow
   al_workflow:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -163,14 +163,16 @@ services:
     build:
       context: privilege-core-image
       args:
-        version: ${CORE_VERSION}
+        version: ${AL_VERSION}
         registry: ${REGISTRY}
       cache_from:
-        - cccs/assemblyline-core:${CORE_VERSION}
-    image: ${COMPOSE_PROJECT_NAME}_al_scaler:${CORE_VERSION}
+        - cccs/assemblyline-core:${AL_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_al_scaler:${AL_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
+      DOCKER_CONFIGURATION_PATH: /mount/service_config
+      DOCKER_CONFIGURATION_VOLUME: ${COMPOSE_PROJECT_NAME}_service_config
       AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
       UI_SERVER: http://al_internal_ui:5000
       SERVICE_API_HOST: http://al_service_server:5003
@@ -192,11 +194,11 @@ services:
     build:
       context: privilege-core-image
       args:
-        version: ${CORE_VERSION}
+        version: ${AL_VERSION}
         registry: ${REGISTRY}
       cache_from:
-        - cccs/assemblyline-core:${CORE_VERSION}
-    image: ${COMPOSE_PROJECT_NAME}_al_updater:${CORE_VERSION}
+        - cccs/assemblyline-core:${AL_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_al_updater:${AL_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
@@ -217,7 +219,7 @@ services:
 
   # Dispatcher
   al_dispatcher:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -232,7 +234,7 @@ services:
 
   # Ingester Processes
   al_ingester:
-    image: ${REGISTRY}cccs/assemblyline-core:${CORE_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -247,7 +249,7 @@ services:
 
   # Service server
   al_service_server:
-    image: ${REGISTRY}cccs/assemblyline-service-server:${SERVICE_SERVER_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-service-server:${AL_VERSION}
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
@@ -265,7 +267,7 @@ services:
     
   # UI
   al_internal_ui:
-    image: ${REGISTRY}cccs/assemblyline-ui:${UI_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -281,7 +283,7 @@ services:
     
   # UI
   al_ui:
-    image: ${REGISTRY}cccs/assemblyline-ui:${UI_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -293,7 +295,7 @@ services:
 
   # SocketIO Server
   al_socketio:
-    image: ${REGISTRY}cccs/assemblyline-socketio:${UI_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-socketio:${AL_VERSION}
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -305,7 +307,7 @@ services:
 
   # Assemblyline Frontend
   al_ui_frontend:
-    image: ${REGISTRY}cccs/assemblyline-ui-frontend:${UI_FRONTEND_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-ui-frontend:${AL_VERSION}
     env_file: [".env"]
     networks: [core]
     restart: on-failure
@@ -319,7 +321,7 @@ networks:
     internal: true
 
 volumes:
-  filestore:
   datastore:
-  config_data:
+  filestore:
   redis:
+  service_config:
