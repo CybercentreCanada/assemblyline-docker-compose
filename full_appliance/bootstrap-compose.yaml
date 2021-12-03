@@ -15,7 +15,7 @@ services:
   service_apkaye:
     image: ${REGISTRY}cccs/assemblyline-service-apkaye:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -24,7 +24,7 @@ services:
   service_antivirus:
     image: ${REGISTRY}cccs/assemblyline-service-antivirus:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -33,7 +33,7 @@ services:
   service_beaver:
     image: ${REGISTRY}cccs/assemblyline-service-beaver:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -42,7 +42,7 @@ services:
   service_characterize:
     image: ${REGISTRY}cccs/assemblyline-service-characterize:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -51,7 +51,7 @@ services:
   service_configextractor:
     image: ${REGISTRY}cccs/assemblyline-service-configextractor:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -60,7 +60,7 @@ services:
   service_cuckoo:
     image: ${REGISTRY}cccs/assemblyline-service-cuckoo:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -69,7 +69,7 @@ services:
   service_deobfuscripter:
     image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -78,7 +78,7 @@ services:
   service_emlparser:
     image: ${REGISTRY}cccs/assemblyline-service-emlparser:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -87,7 +87,7 @@ services:
   service_espresso:
     image: ${REGISTRY}cccs/assemblyline-service-espresso:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -96,7 +96,7 @@ services:
   service_extract:
     image: ${REGISTRY}cccs/assemblyline-service-extract:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -105,7 +105,7 @@ services:
   service_floss:
     image: ${REGISTRY}cccs/assemblyline-service-floss:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -114,7 +114,7 @@ services:
   service_frankenstrings:
     image: ${REGISTRY}cccs/assemblyline-service-frankenstrings:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -123,7 +123,7 @@ services:
   service_iparse:
     image: ${REGISTRY}cccs/assemblyline-service-iparse:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -132,7 +132,7 @@ services:
   service_jsjaws:
     image: ${REGISTRY}cccs/assemblyline-service-jsjaws:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -141,7 +141,7 @@ services:
   service_metadefender:
     image: ${REGISTRY}cccs/assemblyline-service-metadefender:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -150,7 +150,7 @@ services:
   service_metapeek:
     image: ${REGISTRY}cccs/assemblyline-service-metapeek:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -159,7 +159,7 @@ services:
   service_oletools:
     image: ${REGISTRY}cccs/assemblyline-service-oletools:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -168,7 +168,7 @@ services:
   service_overpower:
     image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -177,7 +177,7 @@ services:
   service_pdfid:
     image: ${REGISTRY}cccs/assemblyline-service-pdfid:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -186,7 +186,7 @@ services:
   service_pefile:
     image: ${REGISTRY}cccs/assemblyline-service-pefile:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -195,7 +195,7 @@ services:
   service_peepdf:
     image: ${REGISTRY}cccs/assemblyline-service-peepdf:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -204,7 +204,7 @@ services:
   service_pixaxe:
     image: ${REGISTRY}cccs/assemblyline-service-pixaxe:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -213,7 +213,7 @@ services:
   service_safelist:
     image: ${REGISTRY}cccs/assemblyline-service-safelist:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -222,7 +222,7 @@ services:
   service_sigma:
     image: ${REGISTRY}cccs/assemblyline-service-sigma:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -231,7 +231,7 @@ services:
   service_suricata:
     image: ${REGISTRY}cccs/assemblyline-service-suricata:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -240,7 +240,7 @@ services:
   service_swiffer:
     image: ${REGISTRY}cccs/assemblyline-service-swiffer:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -249,7 +249,7 @@ services:
   service_tagcheck:
     image: ${REGISTRY}cccs/assemblyline-service-tagcheck:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -258,7 +258,7 @@ services:
   service_torrentslicer:
     image: ${REGISTRY}cccs/assemblyline-service-torrentslicer:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -267,7 +267,7 @@ services:
   service_unpacker:
     image: ${REGISTRY}cccs/assemblyline-service-unpacker:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -276,7 +276,7 @@ services:
   service_unpacme:
     image: ${REGISTRY}cccs/assemblyline-service-unpacme:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -285,7 +285,7 @@ services:
   service_vipermonkey:
     image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]
@@ -294,7 +294,7 @@ services:
   service_virustotal_dynamic:
     image: ${REGISTRY}cccs/assemblyline-service-virustotal-dynamic:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -303,7 +303,7 @@ services:
   service_virustotal_static:
     image: ${REGISTRY}cccs/assemblyline-service-virustotal-static:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -312,7 +312,7 @@ services:
   service_yara:
     image: ${REGISTRY}cccs/assemblyline-service-yara:${SERVICE_VERSION}
     environment:
-      SERVICE_API_HOST: http://al_service_server:5003
+      SERVICE_API_HOST: http://service_server:5003
       SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: 'True'
     networks: [registration]
@@ -321,7 +321,7 @@ services:
   service_xlmmacrodeobfuscator:
     image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
     environment:
-      - SERVICE_API_HOST=http://al_service_server:5003
+      - SERVICE_API_HOST=http://service_server:5003
       - SERVICE_API_KEY=${SERVICE_API_KEY}
       - REGISTER_ONLY=True
     networks: [registration]

@@ -168,15 +168,15 @@ services:
         registry: ${REGISTRY}
       cache_from:
         - cccs/assemblyline-core:${AL_VERSION}
-    image: ${COMPOSE_PROJECT_NAME}_al_scaler:${AL_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_scaler:${AL_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
       DOCKER_CONFIGURATION_PATH: /mount/service_config
       DOCKER_CONFIGURATION_VOLUME: ${COMPOSE_PROJECT_NAME}_service_config
       AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
-      UI_SERVER: http://al_internal_ui:5000
-      SERVICE_API_HOST: http://al_service_server:5003
+      UI_SERVER: http://internal_ui:5000
+      SERVICE_API_HOST: http://service_server:5003
     volumes:
       - service_config:/mount/service_config:rw
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -199,13 +199,13 @@ services:
         registry: ${REGISTRY}
       cache_from:
         - cccs/assemblyline-core:${AL_VERSION}
-    image: ${COMPOSE_PROJECT_NAME}_al_updater:${AL_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_updater:${AL_VERSION}
     privileged: true
     env_file: [".env"]
     environment:
       AL_REGISTRATION_NETWORK: ${COMPOSE_PROJECT_NAME}_registration
-      UI_SERVER: http://al_internal_ui:5000
-      SERVICE_API_HOST: http://al_service_server:5003
+      UI_SERVER: http://internal_ui:5000
+      SERVICE_API_HOST: http://service_server:5003
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
