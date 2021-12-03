@@ -5,8 +5,8 @@ services:
   minio:
     image: ${REGISTRY}minio/minio
     environment:
-      MINIO_ACCESS_KEY: al_storage_key
-      MINIO_SECRET_KEY: "${FILESTORE_PASSWORD}"
+      MINIO_ROOT_USER: al_storage_key
+      MINIO_ROOT_PASSWORD: "${FILESTORE_PASSWORD}"
     command: server /data
     networks: [core]
     volumes:
