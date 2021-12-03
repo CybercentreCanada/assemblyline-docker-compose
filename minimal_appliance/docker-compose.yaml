@@ -16,6 +16,7 @@ services:
   elasticsearch:
     image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.15.1
     environment:
+      - ingest.geoip.downloader.enabled=false
       - xpack.security.enabled=true
       - discovery.type=single-node
       - logger.level=WARN
