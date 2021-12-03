@@ -132,7 +132,7 @@ services:
       - DOLLAR=$$
       - UI_HOST=ui
       - SOCKET_HOST=socketio
-      - FRONTEND_HOST=ui_frontend
+      - FRONTEND_HOST=frontend
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
     volumes:
@@ -400,7 +400,7 @@ services:
         condition: service_healthy
 
   # Assemblyline Frontend
-  ui_frontend:
+  frontend:
     image: ${REGISTRY}cccs/assemblyline-ui-frontend:${AL_VERSION}
     env_file: [".env"]
     networks: [core]
