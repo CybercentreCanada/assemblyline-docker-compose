@@ -1,11 +1,13 @@
+import os
+
 from assemblyline.odm.models.user_settings import UserSettings
 from assemblyline.common.security import get_password_hash
 from assemblyline.odm.models.user import User
 from assemblyline.common import forge
 
 
-ADMIN_USER = 'admin'
-INITIAL_ADMIN_PASSWORD = 'admin'
+ADMIN_USER = os.environ.get("AL_ADMIN_USER", "admin")
+INITIAL_ADMIN_PASSWORD = os.environ.get("AL_ADMIN_PASSWORD", "admin")
 
 
 if __name__ == '__main__':
@@ -17,7 +19,7 @@ if __name__ == '__main__':
             "name": "Admin user",
             "password": get_password_hash(INITIAL_ADMIN_PASSWORD),
             "uname": ADMIN_USER,
-            "type": [ADMIN_USER, "user", "signature_importer"]})
+            "type": ["admin", "user", "signature_importer"]})
         ds.user.save(ADMIN_USER, user_data)
         ds.user_settings.save(ADMIN_USER, UserSettings())
         print("Initial user setup finished.")
