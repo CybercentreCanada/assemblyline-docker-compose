@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   # Bootstrap the assemblyline system by creating an admin user
-  al_first_time_setup:
+  first_time_setup:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -12,7 +12,7 @@ services:
     networks: [core]
 
   # APKaye service
-  al_service_apkaye:
+  service_apkaye:
     image: ${REGISTRY}cccs/assemblyline-service-apkaye:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -21,7 +21,7 @@ services:
     networks: [registration]
 
   # Antivirus service
-  al_service_antivirus:
+  service_antivirus:
     image: ${REGISTRY}cccs/assemblyline-service-antivirus:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -30,7 +30,7 @@ services:
     networks: [registration]
 
   # Beaver service
-  al_service_beaver:
+  service_beaver:
     image: ${REGISTRY}cccs/assemblyline-service-beaver:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -39,7 +39,7 @@ services:
     networks: [registration]
 
   # Characterize service
-  al_service_characterize:
+  service_characterize:
     image: ${REGISTRY}cccs/assemblyline-service-characterize:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -48,7 +48,7 @@ services:
     networks: [registration]
 
   # ConfigExtractor service
-  al_service_configextractor:
+  service_configextractor:
     image: ${REGISTRY}cccs/assemblyline-service-configextractor:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -57,7 +57,7 @@ services:
     networks: [registration]
 
   # Cuckoo service
-  al_service_cuckoo:
+  service_cuckoo:
     image: ${REGISTRY}cccs/assemblyline-service-cuckoo:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -66,7 +66,7 @@ services:
     networks: [registration]
 
   # Deobfuscripter service
-  al_service_deobfuscripter:
+  service_deobfuscripter:
     image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -75,7 +75,7 @@ services:
     networks: [registration]
 
   # EmlParser service
-  al_service_emlparser:
+  service_emlparser:
     image: ${REGISTRY}cccs/assemblyline-service-emlparser:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -84,7 +84,7 @@ services:
     networks: [registration]
 
   # Espresso service
-  al_service_espresso:
+  service_espresso:
     image: ${REGISTRY}cccs/assemblyline-service-espresso:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -93,7 +93,7 @@ services:
     networks: [registration]
 
   # Extract service
-  al_service_extract:
+  service_extract:
     image: ${REGISTRY}cccs/assemblyline-service-extract:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -102,7 +102,7 @@ services:
     networks: [registration]
 
   # Floss service
-  al_service_floss:
+  service_floss:
     image: ${REGISTRY}cccs/assemblyline-service-floss:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -111,7 +111,7 @@ services:
     networks: [registration]
 
   # Frankenstrings service
-  al_service_frankenstrings:
+  service_frankenstrings:
     image: ${REGISTRY}cccs/assemblyline-service-frankenstrings:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -120,7 +120,7 @@ services:
     networks: [registration]
 
   # iParse service
-  al_service_iparse:
+  service_iparse:
     image: ${REGISTRY}cccs/assemblyline-service-iparse:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -129,7 +129,7 @@ services:
     networks: [registration]
 
   # JsJaws service
-  al_service_jsjaws:
+  service_jsjaws:
     image: ${REGISTRY}cccs/assemblyline-service-jsjaws:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -138,7 +138,7 @@ services:
     networks: [registration]
 
   # MetaDefender service
-  al_service_metadefender:
+  service_metadefender:
     image: ${REGISTRY}cccs/assemblyline-service-metadefender:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -147,7 +147,7 @@ services:
     networks: [registration]
 
   # MetaPeek service
-  al_service_metapeek:
+  service_metapeek:
     image: ${REGISTRY}cccs/assemblyline-service-metapeek:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -156,7 +156,7 @@ services:
     networks: [registration]
 
   # OleTools service
-  al_service_oletools:
+  service_oletools:
     image: ${REGISTRY}cccs/assemblyline-service-oletools:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -165,7 +165,7 @@ services:
     networks: [registration]
 
   # Overpower service
-  al_service_overpower:
+  service_overpower:
     image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -174,7 +174,7 @@ services:
     networks: [registration]
 
   # PDFiD service
-  al_service_pdfid:
+  service_pdfid:
     image: ${REGISTRY}cccs/assemblyline-service-pdfid:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -183,7 +183,7 @@ services:
     networks: [registration]
 
   # PEFile service
-  al_service_pefile:
+  service_pefile:
     image: ${REGISTRY}cccs/assemblyline-service-pefile:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -192,7 +192,7 @@ services:
     networks: [registration]
 
   # PeePDF service
-  al_service_peepdf:
+  service_peepdf:
     image: ${REGISTRY}cccs/assemblyline-service-peepdf:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -201,7 +201,7 @@ services:
     networks: [registration]
 
   # Pixaxe service
-  al_service_pixaxe:
+  service_pixaxe:
     image: ${REGISTRY}cccs/assemblyline-service-pixaxe:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -210,7 +210,7 @@ services:
     networks: [registration]
 
   # Safelist service
-  al_service_safelist:
+  service_safelist:
     image: ${REGISTRY}cccs/assemblyline-service-safelist:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -219,7 +219,7 @@ services:
     networks: [registration]
 
   # Sigma service
-  al_service_sigma:
+  service_sigma:
     image: ${REGISTRY}cccs/assemblyline-service-sigma:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -228,7 +228,7 @@ services:
     networks: [registration]
 
   # Suricata service
-  al_service_suricata:
+  service_suricata:
     image: ${REGISTRY}cccs/assemblyline-service-suricata:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -237,7 +237,7 @@ services:
     networks: [registration]
 
   # Swiffer service
-  al_service_swiffer:
+  service_swiffer:
     image: ${REGISTRY}cccs/assemblyline-service-swiffer:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -246,7 +246,7 @@ services:
     networks: [registration]
 
   # TagCheck service
-  al_service_tagcheck:
+  service_tagcheck:
     image: ${REGISTRY}cccs/assemblyline-service-tagcheck:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -255,7 +255,7 @@ services:
     networks: [registration]
 
   # TorrentSlicer service
-  al_service_torrentslicer:
+  service_torrentslicer:
     image: ${REGISTRY}cccs/assemblyline-service-torrentslicer:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -264,7 +264,7 @@ services:
     networks: [registration]
 
   # Unpacker service
-  al_service_unpacker:
+  service_unpacker:
     image: ${REGISTRY}cccs/assemblyline-service-unpacker:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -273,7 +273,7 @@ services:
     networks: [registration]
 
   # Unpacme service
-  al_service_unpacme:
+  service_unpacme:
     image: ${REGISTRY}cccs/assemblyline-service-unpacme:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -282,7 +282,7 @@ services:
     networks: [registration]
 
   # ViperMonkey service
-  al_service_vipermonkey:
+  service_vipermonkey:
     image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003
@@ -291,7 +291,7 @@ services:
     networks: [registration]
 
   # VirusTotal Dynamic service
-  al_service_virustotal_dynamic:
+  service_virustotal_dynamic:
     image: ${REGISTRY}cccs/assemblyline-service-virustotal-dynamic:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -300,7 +300,7 @@ services:
     networks: [registration]
 
   # VirusTotal Static service
-  al_service_virustotal_static:
+  service_virustotal_static:
     image: ${REGISTRY}cccs/assemblyline-service-virustotal-static:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -309,7 +309,7 @@ services:
     networks: [registration]
 
   # Yara service
-  al_service_yara:
+  service_yara:
     image: ${REGISTRY}cccs/assemblyline-service-yara:${SERVICE_VERSION}
     environment:
       SERVICE_API_HOST: http://al_service_server:5003
@@ -318,7 +318,7 @@ services:
     networks: [registration]
 
   # XLMMacroDeobfuscator service
-  al_service_xlmmacrodeobfuscator:
+  service_xlmmacrodeobfuscator:
     image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
     environment:
       - SERVICE_API_HOST=http://al_service_server:5003

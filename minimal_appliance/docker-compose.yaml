@@ -65,14 +65,14 @@ services:
       - external
     restart: on-failure    
     depends_on:
-      al_socketio:
+      socketio:
         condition: service_started
-      al_ui:
+      ui:
         condition: service_started
 
   # Start the core services
   # Alerter
-  al_alerter:
+  alerter:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -87,7 +87,7 @@ services:
         condition: service_healthy
 
   # Expiry
-  al_expiry:
+  expiry:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -102,7 +102,7 @@ services:
         condition: service_healthy
 
   # Hearbeat manager
-  al_heartbeat:
+  heartbeat:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -117,7 +117,7 @@ services:
         condition: service_healthy
 
   # Plumber 
-  al_plumber:
+  plumber:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -132,7 +132,7 @@ services:
         condition: service_healthy
 
   # Statistics aggregator
-  al_statistics:
+  statistics:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -145,7 +145,7 @@ services:
         condition: service_healthy
 
   # Workflow
-  al_workflow:
+  workflow:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -160,7 +160,7 @@ services:
         condition: service_healthy
 
   # Scaler
-  al_scaler:
+  scaler:
     build:
       context: privilege-core-image
       args:
@@ -191,7 +191,7 @@ services:
         condition: service_healthy
 
   # Updater
-  al_updater:
+  updater:
     build:
       context: privilege-core-image
       args:
@@ -219,7 +219,7 @@ services:
         condition: service_healthy
 
   # Dispatcher
-  al_dispatcher:
+  dispatcher:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -234,7 +234,7 @@ services:
         condition: service_healthy
 
   # Ingester Processes
-  al_ingester:
+  ingester:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -249,7 +249,7 @@ services:
         condition: service_healthy
 
   # Service server
-  al_service_server:
+  service_server:
     image: ${REGISTRY}cccs/assemblyline-service-server:${AL_VERSION}
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -267,7 +267,7 @@ services:
     restart: on-failure
     
   # UI
-  al_internal_ui:
+  internal_ui:
     image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -283,7 +283,7 @@ services:
         condition: service_healthy
     
   # UI
-  al_ui:
+  ui:
     image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -295,7 +295,7 @@ services:
         condition: service_healthy
 
   # SocketIO Server
-  al_socketio:
+  socketio:
     image: ${REGISTRY}cccs/assemblyline-socketio:${AL_VERSION}
     env_file: [".env"]
     volumes:
@@ -307,7 +307,7 @@ services:
         condition: service_healthy
 
   # Assemblyline Frontend
-  al_ui_frontend:
+  ui_frontend:
     image: ${REGISTRY}cccs/assemblyline-ui-frontend:${AL_VERSION}
     env_file: [".env"]
     networks: [core]
