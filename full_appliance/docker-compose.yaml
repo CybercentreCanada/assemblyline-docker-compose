@@ -130,9 +130,9 @@ services:
       - '443:443'
     environment:
       - DOLLAR=$$
-      - UI_HOST=al_ui
-      - SOCKET_HOST=al_socketio
-      - FRONTEND_HOST=al_ui_frontend
+      - UI_HOST=ui
+      - SOCKET_HOST=socketio
+      - FRONTEND_HOST=ui_frontend
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
     volumes:
