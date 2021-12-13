@@ -59,7 +59,7 @@ services:
       - discovery.type=single-node
       - logger.level=WARN
       - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
-      - "ES_JAVA_OPTS=-Xms${ELASTIC_MEM}m -Xmx${ELASTIC_MEM}m"
+      - "ES_JAVA_OPTS=-Xms${ELASTIC_MEM}m -Xmx${ELASTIC_MEM}m -Dlog4j2.formatMsgNoLookups=true"
     healthcheck:
         test: ["CMD-SHELL", "curl --silent --fail -u elastic:${ELASTIC_PASSWORD} localhost:9200/_cluster/health || exit 1"]
         interval: 30s
