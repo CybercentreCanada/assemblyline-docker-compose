@@ -14,9 +14,8 @@ services:
   # APKaye service
   service_apkaye:
     image: ${REGISTRY}cccs/assemblyline-service-apkaye:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -26,9 +25,8 @@ services:
   # Antivirus service
   service_antivirus:
     image: ${REGISTRY}cccs/assemblyline-service-antivirus:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -38,9 +36,8 @@ services:
   # Beaver service
   service_beaver:
     image: ${REGISTRY}cccs/assemblyline-service-beaver:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -50,9 +47,8 @@ services:
   # Characterize service
   service_characterize:
     image: ${REGISTRY}cccs/assemblyline-service-characterize:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -62,9 +58,8 @@ services:
   # ConfigExtractor service
   service_configextractor:
     image: ${REGISTRY}cccs/assemblyline-service-configextractor:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -74,9 +69,8 @@ services:
   # Cuckoo service
   service_cuckoo:
     image: ${REGISTRY}cccs/assemblyline-service-cuckoo:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -86,9 +80,8 @@ services:
   # Deobfuscripter service
   service_deobfuscripter:
     image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -98,9 +91,8 @@ services:
   # EmlParser service
   service_emlparser:
     image: ${REGISTRY}cccs/assemblyline-service-emlparser:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -110,9 +102,8 @@ services:
   # Espresso service
   service_espresso:
     image: ${REGISTRY}cccs/assemblyline-service-espresso:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -122,9 +113,8 @@ services:
   # Extract service
   service_extract:
     image: ${REGISTRY}cccs/assemblyline-service-extract:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -134,9 +124,8 @@ services:
   # Floss service
   service_floss:
     image: ${REGISTRY}cccs/assemblyline-service-floss:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -146,9 +135,8 @@ services:
   # Frankenstrings service
   service_frankenstrings:
     image: ${REGISTRY}cccs/assemblyline-service-frankenstrings:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -158,9 +146,8 @@ services:
   # iParse service
   service_iparse:
     image: ${REGISTRY}cccs/assemblyline-service-iparse:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -170,9 +157,8 @@ services:
   # JsJaws service
   service_jsjaws:
     image: ${REGISTRY}cccs/assemblyline-service-jsjaws:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -182,9 +168,8 @@ services:
   # MetaDefender service
   service_metadefender:
     image: ${REGISTRY}cccs/assemblyline-service-metadefender:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -194,9 +179,8 @@ services:
   # MetaPeek service
   service_metapeek:
     image: ${REGISTRY}cccs/assemblyline-service-metapeek:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -206,9 +190,8 @@ services:
   # OleTools service
   service_oletools:
     image: ${REGISTRY}cccs/assemblyline-service-oletools:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -218,9 +201,8 @@ services:
   # Overpower service
   service_overpower:
     image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -230,9 +212,8 @@ services:
   # PDFiD service
   service_pdfid:
     image: ${REGISTRY}cccs/assemblyline-service-pdfid:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -242,9 +223,8 @@ services:
   # PEFile service
   service_pefile:
     image: ${REGISTRY}cccs/assemblyline-service-pefile:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -254,9 +234,8 @@ services:
   # PeePDF service
   service_peepdf:
     image: ${REGISTRY}cccs/assemblyline-service-peepdf:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -266,9 +245,8 @@ services:
   # Pixaxe service
   service_pixaxe:
     image: ${REGISTRY}cccs/assemblyline-service-pixaxe:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -278,9 +256,8 @@ services:
   # Safelist service
   service_safelist:
     image: ${REGISTRY}cccs/assemblyline-service-safelist:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -290,9 +267,8 @@ services:
   # Sigma service
   service_sigma:
     image: ${REGISTRY}cccs/assemblyline-service-sigma:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -302,9 +278,8 @@ services:
   # Suricata service
   service_suricata:
     image: ${REGISTRY}cccs/assemblyline-service-suricata:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -314,9 +289,8 @@ services:
   # Swiffer service
   service_swiffer:
     image: ${REGISTRY}cccs/assemblyline-service-swiffer:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -326,9 +300,8 @@ services:
   # TagCheck service
   service_tagcheck:
     image: ${REGISTRY}cccs/assemblyline-service-tagcheck:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -338,9 +311,8 @@ services:
   # TorrentSlicer service
   service_torrentslicer:
     image: ${REGISTRY}cccs/assemblyline-service-torrentslicer:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -350,9 +322,8 @@ services:
   # Unpacker service
   service_unpacker:
     image: ${REGISTRY}cccs/assemblyline-service-unpacker:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -362,9 +333,8 @@ services:
   # Unpacme service
   service_unpacme:
     image: ${REGISTRY}cccs/assemblyline-service-unpacme:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -374,9 +344,8 @@ services:
   # ViperMonkey service
   service_vipermonkey:
     image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -386,9 +355,8 @@ services:
   # VirusTotal Dynamic service
   service_virustotal_dynamic:
     image: ${REGISTRY}cccs/assemblyline-service-virustotal-dynamic:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -398,9 +366,8 @@ services:
   # VirusTotal Static service
   service_virustotal_static:
     image: ${REGISTRY}cccs/assemblyline-service-virustotal-static:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -410,9 +377,8 @@ services:
   # Yara service
   service_yara:
     image: ${REGISTRY}cccs/assemblyline-service-yara:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
@@ -422,9 +388,8 @@ services:
   # XLMMacroDeobfuscator service
   service_xlmmacrodeobfuscator:
     image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
+    env_file: [".env"]
     environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      FILESTORE_PASSWORD: ${FILESTORE_PASSWORD}
       PRIVILEGED: 'true'
       REGISTER_ONLY: 'true'
     networks: [core]
