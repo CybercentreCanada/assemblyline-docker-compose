@@ -204,6 +204,7 @@ services:
     env_file: [".env"]
     environment:
       AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
+      CONFIGURATION_HOST_PATH: ${COMPOSE_PROJECT_NAME}_service_config
       UI_SERVER: http://internal_ui:5000
       SERVICE_API_HOST: http://service_server:5003
     volumes:
