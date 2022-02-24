@@ -63,7 +63,7 @@ services:
     networks:
       - core
       - external
-    restart: on-failure    
+    restart: on-failure
     depends_on:
       socketio:
         condition: service_started
@@ -116,7 +116,7 @@ services:
       elasticsearch:
         condition: service_healthy
 
-  # Plumber 
+  # Plumber
   plumber:
     image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     env_file: [".env"]
@@ -203,7 +203,8 @@ services:
     privileged: true
     env_file: [".env"]
     environment:
-      AL_REGISTRATION_NETWORK: ${COMPOSE_PROJECT_NAME}_registration
+      AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
+      CONFIGURATION_HOST_PATH: ${COMPOSE_PROJECT_NAME}_service_config
       UI_SERVER: http://internal_ui:5000
       SERVICE_API_HOST: http://service_server:5003
     volumes:
@@ -255,7 +256,6 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks:
       - core
-      - registration
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -265,7 +265,7 @@ services:
     environment:
       SERVICE_API_KEY: ${SERVICE_API_KEY}
     restart: on-failure
-    
+
   # UI
   internal_ui:
     image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
@@ -281,7 +281,7 @@ services:
     depends_on:
       elasticsearch:
         condition: service_healthy
-    
+
   # UI
   ui:
     image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
