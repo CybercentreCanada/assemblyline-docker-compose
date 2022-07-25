@@ -352,20 +352,9 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
-  # VirusTotal Dynamic service
-  service_virustotal_dynamic:
-    image: ${REGISTRY}cccs/assemblyline-service-virustotal-dynamic:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: 'true'
-      REGISTER_ONLY: 'true'
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-
-  # VirusTotal Static service
-  service_virustotal_static:
-    image: ${REGISTRY}cccs/assemblyline-service-virustotal-static:${SERVICE_VERSION}
+  # VirusTotal service
+  service_virustotal:
+    image: ${REGISTRY}cccs/assemblyline-service-virustotal:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: 'true'
