@@ -14,7 +14,7 @@ services:
     restart: on-failure
 
   kibana:
-    image: ${REGISTRY}docker.elastic.co/kibana/kibana:7.16.1
+    image: ${REGISTRY}docker.elastic.co/kibana/kibana:7.17.4
     environment:
       SERVER_NAME: localhost
       ELASTIC_HOSTS: http://elasticsearch:9200
@@ -34,7 +34,7 @@ services:
     restart: on-failure
 
   apm_server:
-    image: ${REGISTRY}docker.elastic.co/apm/apm-server:7.16.1
+    image: ${REGISTRY}docker.elastic.co/apm/apm-server:7.17.4
     volumes:
       - ${COMPOSE_ROOT}/config/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     environment:
@@ -52,7 +52,7 @@ services:
     restart: on-failure
 
   elasticsearch:
-    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.17.4
     environment:
       - ingest.geoip.downloader.enabled=false
       - xpack.security.enabled=true
@@ -71,7 +71,7 @@ services:
     restart: on-failure
 
   filebeat:
-    image: ${REGISTRY}docker.elastic.co/beats/filebeat:7.16.1
+    image: ${REGISTRY}docker.elastic.co/beats/filebeat:7.17.4
     user: root
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200
@@ -92,7 +92,7 @@ services:
     restart: on-failure
 
   metricbeat:
-    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:7.16.1
+    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:7.17.4
     user: root
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200

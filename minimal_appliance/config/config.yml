@@ -29,7 +29,7 @@ core:
       port: 6379
 
 datastore:
-  hosts: ["elastic:${ELASTIC_PASSWORD}@elasticsearch"]
+  hosts: ["http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200"]
 
 filestore:
   cache: ["s3://al_storage_key:${FILESTORE_PASSWORD}@minio:9000?s3_bucket=al-cache&use_ssl=False"]
