@@ -135,6 +135,7 @@ services:
       - FRONTEND_HOST=frontend
       - FQDN=${DOMAIN}
       - MAX_BODY_SIZE=100M
+      - TEMPLATE=full
     volumes:
       - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt:ro
       - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key:ro
