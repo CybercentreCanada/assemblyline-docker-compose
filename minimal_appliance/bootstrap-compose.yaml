@@ -11,6 +11,17 @@ services:
     command: python3 /tmp/bootstrap.py
     networks: [core]
 
+  # APIVector service
+  service_apivector:
+    image: ${REGISTRY}cccs/assemblyline-service-apivector:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
   # APKaye service
   service_apkaye:
     image: ${REGISTRY}cccs/assemblyline-service-apkaye:${SERVICE_VERSION}
@@ -33,9 +44,31 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
+  # BatchDeobfuscator service
+  service_batchdeobfuscator:
+    image: ${REGISTRY}cccs/assemblyline-service-batchdeobfuscator:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
   # Beaver service
   service_beaver:
     image: ${REGISTRY}cccs/assemblyline-service-beaver:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
+  # CAPA service
+  service_capa:
+    image: ${REGISTRY}cccs/assemblyline-service-capa:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
@@ -80,6 +113,28 @@ services:
   # Deobfuscripter service
   service_deobfuscripter:
     image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
+  # ELF service
+  service_elf:
+    image: ${REGISTRY}cccs/assemblyline-service-elf:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
+  # ELFPARSER service
+  service_elfparser:
+    image: ${REGISTRY}cccs/assemblyline-service-elfparser:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
@@ -220,9 +275,9 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
-  # PEFile service
-  service_pefile:
-    image: ${REGISTRY}cccs/assemblyline-service-pefile:${SERVICE_VERSION}
+  # PE service
+  service_pe:
+    image: ${REGISTRY}cccs/assemblyline-service-pe:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
