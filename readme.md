@@ -1,7 +1,7 @@
 ## Assemblyline 4 - Docker compose documentation
 
 There are two types of configuration possible:
-    
+
 - Minimal appliance
 - Full Appliance
 
@@ -17,42 +17,57 @@ This setup includes every single components and all metrics and logging capabili
 
 ## Setup
 
-For full documentation on how to setup an assemblyline appliance see the documentation page. 
+For full documentation on how to setup an assemblyline appliance see the documentation page.
 https://cybercentrecanada.github.io/assemblyline4_docs/
 
 #### Quickstart
 
 ##### 1. Install docker and docker-compose on a linux system
+```NOTE:``` If using the Docker Compose plugin, replace `docker-compose` commands with `docker compose`.
+
 ##### 2. Clone this repository
+```bash
+git clone https://github.com/CybercentreCanada/assemblyline-docker-compose.git
+```
 
-    git clone https://github.com/CybercentreCanada/assemblyline-docker-compose.git
-
-##### 3 Choose deployment type
-
-Choose one of the minimal or full deployments. The rest of the commands 
+##### 3. Choose deployment type
+Choose one of the minimal or full deployments. The rest of the commands
 and paths given will be relative to the directory specific to the deployment
-type you are doing. 
-    
-    cd assemblyline-docker-compose/minimal_appliance
+type you are doing.
+```bash
+mkdir ~/deployments
+cp -R ~/git/assemblyline-docker-compose/minimal_appliance ~/deployments/assemblyline
+cd ~/deployments/assemblyline
+```
 
 or
 
-    cd assemblyline-docker-compose/full_appliance
+```bash
+mkdir ~/deployments
+cp -R ~/git/assemblyline-docker-compose/full_appliance ~/deployments/assemblyline
+cd ~/deployments/assemblyline
+```
 
-##### 4. Copy in an existing or generate a self signed certificate into the `./config` directory in the cloned repository
-    
-    openssl req -nodes -x509 -newkey rsa:4096 -keyout ./config/nginx.key -out ./config/nginx.crt -days 365 -subj "/C=CA/ST=Ontario/L=Ottawa/O=CCCS/CN=assemblyline.local"
-    
-##### 5. Set passwords and paths in `./.env` and `./config/bootstrap.py`
+##### 4. Set domain, passwords, and paths in `./.env` and `./config/bootstrap.py`
+
+##### 5. Copy in an existing or generate a self-signed certificate into the `./config` directory in the cloned repository
+```bash
+source .env
+openssl req -nodes -x509 -newkey rsa:4096 -keyout ./config/nginx.key -out ./config/nginx.crt -days 365 -subj "/C=CA/ST=Ontario/L=Ottawa/O=CCCS/CN=$DOMAIN"
+```
+
 ##### 6. Launch the system
-    
-Pull the containers and launch the core system.
-    
-    sudo docker-compose pull
-    sudo docker-compose up -d
-
-Pull the containers and perform first time only setup and install.
-
-    sudo docker-compose -f bootstrap-compose.yaml pull 
-    sudo docker-compose -f bootstrap-compose.yaml up -d 
- 
+Pull the containers.
+```bash
+sudo docker-compose pull
+sudo docker-compose build
+sudo docker-compose -f bootstrap-compose.yaml pull
+```
+Launch the core system.
+```bash
+sudo docker-compose up -d
+```
+Perform first time only setup and service initialization.
+```bash
+sudo docker-compose -f bootstrap-compose.yaml up
+ ```
