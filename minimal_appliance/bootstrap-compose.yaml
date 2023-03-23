@@ -121,16 +121,16 @@ services:
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
-  # Cuckoo service
-  service_cuckoo:
-    image: ${REGISTRY}cccs/assemblyline-service-cuckoo:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # # Cuckoo service
+  # service_cuckoo:
+  #   image: ${REGISTRY}cccs/assemblyline-service-cuckoo:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Deobfuscripter service
   service_deobfuscripter:
