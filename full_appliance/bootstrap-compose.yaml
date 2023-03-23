@@ -44,6 +44,28 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
+  # Ancestry service
+  service_ancestry:
+    image: ${REGISTRY}cccs/assemblyline-service-ancestry:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
+  # AVClass service
+  service_avclass:
+    image: ${REGISTRY}cccs/assemblyline-service-avclass:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
   # BatchDeobfuscator service
   service_batchdeobfuscator:
     image: ${REGISTRY}cccs/assemblyline-service-batchdeobfuscator:${SERVICE_VERSION}
@@ -55,9 +77,9 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
-  # Beaver service
-  service_beaver:
-    image: ${REGISTRY}cccs/assemblyline-service-beaver:${SERVICE_VERSION}
+  # CAPA service
+  service_capa:
+    image: ${REGISTRY}cccs/assemblyline-service-capa:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
@@ -66,9 +88,9 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
-  # CAPA service
-  service_capa:
-    image: ${REGISTRY}cccs/assemblyline-service-capa:${SERVICE_VERSION}
+  # CAPE service
+  service_cape:
+    image: ${REGISTRY}cccs/assemblyline-service-cape:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
@@ -113,6 +135,17 @@ services:
   # Deobfuscripter service
   service_deobfuscripter:
     image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
+  # DocumentPreview service
+  service_document_preview:
+    image: ${REGISTRY}cccs/assemblyline-service-document-preview:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
@@ -190,6 +223,17 @@ services:
   # Frankenstrings service
   service_frankenstrings:
     image: ${REGISTRY}cccs/assemblyline-service-frankenstrings:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
+  # Intezer service
+  service_intezer:
+    image: ${REGISTRY}cccs/assemblyline-service-intezer:${SERVICE_VERSION}
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
