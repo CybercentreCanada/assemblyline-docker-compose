@@ -306,6 +306,7 @@ services:
       REGISTER_ONLY: "true"
     networks: [core]
     volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Overpower service
   service_overpower:
