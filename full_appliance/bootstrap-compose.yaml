@@ -297,17 +297,6 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
-  # OneNoteAnalyzer service
-  service_onenoteanalyzer:
-    image: ${REGISTRY}cccs/assemblyline-service-onenoteanalyzer:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-
   # Overpower service
   service_overpower:
     image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
