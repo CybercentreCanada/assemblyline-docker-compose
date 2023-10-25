@@ -13,16 +13,37 @@ services:
     - filestore:/data
     restart: on-failure
 
+  kb_setup:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - KIBANA_PASSWORD=${KIBANA_PASSWORD}
+      - KIBANA_USERNAME=${KIBANA_USERNAME}
+    command: >
+      bash -c '
+        until curl  http://elastic:$$ELASTIC_PASSWORD@elasticsearch:9200 | grep -q "You Know, for Search"; do sleep 2; echo "Elastic not ready"; done;
+        curl -q -X POST -H "Content-Type: application/json" http://elastic:$$ELASTIC_PASSWORD@elasticsearch:9200/_security/user/$$KIBANA_USERNAME/_password -d "{\"password\":\"$$KIBANA_PASSWORD\"}";
+      '
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks: [core]
+
+
   kibana:
-    image: ${REGISTRY}docker.elastic.co/kibana/kibana:7.17.4
+    image: ${REGISTRY}docker.elastic.co/kibana/kibana:8.10.2
     environment:
       SERVER_NAME: localhost
       ELASTIC_HOSTS: http://elasticsearch:9200
       ELASTIC_USERNAME: elastic
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      KIBANA_PASSWORD: ${KIBANA_PASSWORD}
+      KIBANA_USERNAME: ${KIBANA_USERNAME}
     depends_on:
       elasticsearch:
         condition: service_healthy
+      kb_setup:
+        condition: service_completed_successfully
     volumes:
       - ${COMPOSE_ROOT}/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     healthcheck:
@@ -34,13 +55,15 @@ services:
     restart: on-failure
 
   apm_server:
-    image: ${REGISTRY}docker.elastic.co/apm/apm-server:7.17.4
+    image: ${REGISTRY}docker.elastic.co/apm/apm-server:8.10.2
     volumes:
       - ${COMPOSE_ROOT}/config/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200
       ELASTIC_USERNAME: elastic
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      KIBANA_PASSWORD: ${KIBANA_PASSWORD}
+      KIBANA_USERNAME: ${KIBANA_USERNAME}
     command: /bin/bash -c "/usr/local/bin/docker-entrypoint -e -strict.perms=false"
     depends_on:
       elasticsearch:
@@ -52,7 +75,7 @@ services:
     restart: on-failure
 
   elasticsearch:
-    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:7.17.4
+    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:8.10.2
     environment:
       - ingest.geoip.downloader.enabled=false
       - xpack.security.enabled=true
@@ -60,6 +83,9 @@ services:
       - logger.level=WARN
       - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
       - "ES_JAVA_OPTS=-Xms${ELASTIC_MEM}m -Xmx${ELASTIC_MEM}m -Dlog4j2.formatMsgNoLookups=true"
+      - "cluster.routing.allocation.disk.watermark.low=10gb"
+      - "cluster.routing.allocation.disk.watermark.high=5gb"
+      - "cluster.routing.allocation.disk.watermark.flood_stage=1gb"
     healthcheck:
         test: ["CMD-SHELL", "curl --silent --fail -u elastic:${ELASTIC_PASSWORD} localhost:9200/_cluster/health || exit 1"]
         interval: 30s
@@ -71,7 +97,7 @@ services:
     restart: on-failure
 
   filebeat:
-    image: ${REGISTRY}docker.elastic.co/beats/filebeat:7.17.4
+    image: ${REGISTRY}docker.elastic.co/beats/filebeat:8.10.2
     user: root
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200
@@ -92,7 +118,7 @@ services:
     restart: on-failure
 
   metricbeat:
-    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:7.17.4
+    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:8.10.2
     user: root
     environment:
       ELASTIC_HOSTS: http://elasticsearch:9200

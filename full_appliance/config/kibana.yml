@@ -1,11 +1,30 @@
 elasticsearch.hosts: ${ELASTIC_HOSTS}
-elasticsearch.password: ${ELASTIC_PASSWORD}
-elasticsearch.username: ${ELASTIC_USERNAME}
+elasticsearch.password: ${KIBANA_PASSWORD}
+elasticsearch.username: ${KIBANA_USERNAME}
 
-logging.quiet: true
+logging.root.level: warn
 
 server.basePath: /kibana
 server.rewriteBasePath: true
 server.name: kibana
 server.host: "0.0.0.0"
 server.publicBaseUrl: https://localhost/kibana
+
+xpack.reporting.roles.enabled: false
+xpack.reporting.encryptionKey: ThisIsSomeRandomKeyThatYouShouldDefinitelyChange!
+xpack.reporting.kibanaServer.hostname: localhost
+xpack.security.encryptionKey: ThisIsSomeRandomKeyThatYouShouldDefinitelyChange!
+xpack.encryptedSavedObjects.encryptionKey: ThisIsSomeRandomKeyThatYouShouldDefinitelyChange!
+xpack.fleet.packages:
+  - name: apm
+    version: "8.10.2"
+xpack.fleet.agentPolicies:
+  - name: APM Server
+    id: apm
+    is_managed: false
+    namespace: default
+    package_policies:
+      - name: apm_server
+        id: default-apm-server
+        package:
+          name: apm

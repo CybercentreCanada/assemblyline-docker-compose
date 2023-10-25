@@ -23,5 +23,5 @@ setup.template.settings:
 
 setup.kibana:
   host: "http://kibana:5601"
-  username: ${ELASTIC_USERNAME}
-  password: ${ELASTIC_PASSWORD}
+  username: ${KIBANA_USERNAME}
+  password: ${KIBANA_PASSWORD}
