@@ -190,7 +190,6 @@ services:
       DOCKER_CONFIGURATION_PATH: /mount/service_config
       DOCKER_CONFIGURATION_VOLUME: ${COMPOSE_PROJECT_NAME}_service_config
       AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
-      UI_SERVER: http://internal_ui:5000
       SERVICE_API_HOST: http://service-server:5003
     volumes:
       - service_config:/mount/service_config:rw
@@ -220,7 +219,6 @@ services:
     environment:
       AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
       CONFIGURATION_HOST_PATH: ${COMPOSE_PROJECT_NAME}_service_config
-      UI_SERVER: http://internal_ui:5000
       SERVICE_API_HOST: http://service-server:5003
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
@@ -282,21 +280,6 @@ services:
       SERVICE_API_KEY: ${SERVICE_API_KEY}
     restart: on-failure
 
-  # UI
-  internal_ui:
-    image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
-    env_file: [".env"]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core, external]
-    environment:
-      WORKERS: 1
-      THREADS: 2
-      AL_UNSECURED_UI: "true"
-    restart: on-failure
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
 
   # UI
   ui:
