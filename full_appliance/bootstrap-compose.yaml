@@ -7,6 +7,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
       - ${COMPOSE_ROOT}/config/bootstrap.py:/tmp/bootstrap.py:ro
     command: python3 /tmp/bootstrap.py
     networks: [core]
@@ -21,6 +22,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # APKaye service
   service_apkaye:
@@ -32,6 +34,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # Antivirus service
   # service_antivirus:
@@ -43,6 +46,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  #     #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Ancestry service
   service_ancestry:
@@ -54,6 +58,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # AVClass service
   service_avclass:
@@ -65,6 +70,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # BatchDeobfuscator service
   service_batchdeobfuscator:
@@ -76,6 +82,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # CAPA service
   service_capa:
@@ -87,6 +94,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # CAPE service
   # service_cape:
@@ -98,6 +106,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  #     #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Characterize service
   service_characterize:
@@ -109,6 +118,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # ConfigExtractor service
   # service_configextractor:
@@ -120,6 +130,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  #     #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # Cuckoo service
   # service_cuckoo:
@@ -131,6 +142,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  #     #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Deobfuscripter service
   service_deobfuscripter:
@@ -142,6 +154,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # DocumentPreview service
   service_document_preview:
@@ -153,6 +166,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # ELF service
   service_elf:
@@ -164,6 +178,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # ELFPARSER service
   service_elfparser:
@@ -175,6 +190,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # EmlParser service
   service_emlparser:
@@ -186,6 +202,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Espresso service
   service_espresso:
@@ -197,6 +214,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Extract service
   service_extract:
@@ -208,6 +226,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Floss service
   service_floss:
@@ -219,6 +238,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Frankenstrings service
   service_frankenstrings:
@@ -230,6 +250,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # Intezer service
   # service_intezer:
@@ -241,6 +262,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # iParse service
   service_iparse:
@@ -252,6 +274,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # JsJaws service
   service_jsjaws:
@@ -263,6 +286,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # MetaDefender service
   # service_metadefender:
@@ -274,6 +298,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # MetaPeek service
   service_metapeek:
@@ -285,6 +310,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # OleTools service
   service_oletools:
@@ -296,6 +322,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Overpower service
   service_overpower:
@@ -307,6 +334,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # PDFiD service
   service_pdfid:
@@ -318,6 +346,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # PE service
   service_pe:
@@ -329,6 +358,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # PeePDF service
   service_peepdf:
@@ -340,6 +370,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Pixaxe service
   service_pixaxe:
@@ -351,6 +382,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Safelist service
   service_safelist:
@@ -362,6 +394,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Sigma service
   service_sigma:
@@ -373,6 +406,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Suricata service
   service_suricata:
@@ -384,6 +418,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Swiffer service
   service_swiffer:
@@ -395,6 +430,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # TagCheck service
   service_tagcheck:
@@ -406,6 +442,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # TorrentSlicer service
   service_torrentslicer:
@@ -417,6 +454,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Unpacker service
   service_unpacker:
@@ -428,6 +466,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # Unpacme service
   # service_unpacme:
@@ -439,6 +478,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # URLDownloader service
   service_urldownloader:
@@ -450,6 +490,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # ViperMonkey service
   service_vipermonkey:
@@ -461,6 +502,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # # VirusTotal service
   # service_virustotal:
@@ -472,6 +514,7 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # Yara service
   service_yara:
@@ -483,6 +526,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
   # XLMMacroDeobfuscator service
   service_xlmmacrodeobfuscator:
@@ -494,6 +538,7 @@ services:
     networks: [core]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
 
 networks:
   core:

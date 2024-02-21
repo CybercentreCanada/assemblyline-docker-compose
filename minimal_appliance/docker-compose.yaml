@@ -77,6 +77,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.alerter.run_alerter
@@ -92,6 +93,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.archiver.run_archiver
@@ -107,6 +109,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.expiry.run_expiry
@@ -122,6 +125,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
@@ -137,6 +141,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.plumber.run_plumber
@@ -152,6 +157,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_statistics_aggregator
@@ -165,6 +171,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.workflow.run_workflow
@@ -194,6 +201,7 @@ services:
     volumes:
       - service_config:/mount/service_config:rw
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     networks: [core]
     restart: on-failure
@@ -222,6 +230,7 @@ services:
       SERVICE_API_HOST: http://service-server:5003
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     command: python3 -m assemblyline_core.updater.run_updater
     networks: [core, external]
@@ -238,6 +247,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.dispatching
@@ -253,6 +263,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.ingester
@@ -267,6 +278,7 @@ services:
     image: ${REGISTRY}cccs/assemblyline-service-server:${AL_VERSION}
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks:
       - core
       - registration
@@ -287,6 +299,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core, external]
     restart: on-failure
     depends_on:
@@ -299,6 +312,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+      #- ${COMPOSE_ROOT}/config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
     restart: on-failure
     depends_on:
