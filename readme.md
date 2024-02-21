@@ -38,6 +38,7 @@ type you are doing.
 mkdir ~/deployments
 cp -R ~/git/assemblyline-docker-compose/minimal_appliance ~/deployments/assemblyline
 cd ~/deployments/assemblyline
+cp -n ./template.env ./.env
 ```
 
 or
@@ -46,9 +47,12 @@ or
 mkdir ~/deployments
 cp -R ~/git/assemblyline-docker-compose/full_appliance ~/deployments/assemblyline
 cd ~/deployments/assemblyline
+cp -n ./template.env ./.env
 ```
 
-##### 4. Set domain, passwords, and paths in `./.env` and `./config/bootstrap.py`
+##### 4. Set domain, passwords, and paths in `./.env`
+
+Optionally set initial admin user display name and other details in `./config/bootstrap.py`.
 
 ##### 5. Copy in an existing or generate a self-signed certificate into the `./config` directory in the cloned repository
 ```bash
