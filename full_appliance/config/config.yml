@@ -42,3 +42,13 @@ logging:
 services:
   image_variables:
     REGISTRY: ${REGISTRY}
+submission:
+  file_sources:
+    - name: MalwareBazaar
+      data: query=get_file&sha256_hash={SHA256}
+      failure_pattern: '"query_status": "file_not_found"'
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      method: POST
+      replace_pattern: "{SHA256}"
+      url: https://mb-api.abuse.ch/api/v1/
