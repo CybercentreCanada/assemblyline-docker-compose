@@ -30,8 +30,10 @@ datastore:
   hosts: ["http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200"]
 
 filestore:
+  archive: ["s3://al_storage_key:${FILESTORE_PASSWORD}@minio:9000?s3_bucket=al-archive&use_ssl=False"]
   cache: ["s3://al_storage_key:${FILESTORE_PASSWORD}@minio:9000?s3_bucket=al-cache&use_ssl=False"]
   storage: ["s3://al_storage_key:${FILESTORE_PASSWORD}@minio:9000?s3_bucket=al-storage&use_ssl=False"]
+  
 
 logging:
   log_level: WARNING
