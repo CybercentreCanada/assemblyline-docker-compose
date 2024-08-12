@@ -66,6 +66,17 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
+  # Badlist service
+  service_badlist:
+    image: ${REGISTRY}cccs/assemblyline-service-badlist:${SERVICE_VERSION}
+    env_file: [ ".env" ]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [ core ]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
   # BatchDeobfuscator service
   service_batchdeobfuscator:
     image: ${REGISTRY}cccs/assemblyline-service-batchdeobfuscator:${SERVICE_VERSION}
@@ -439,6 +450,17 @@ services:
   #   networks: [core]
   #   volumes:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+
+  # URLCreator service
+  service_urlcreator:
+    image: ${REGISTRY}cccs/assemblyline-service-urlcreator:${SERVICE_VERSION}
+    env_file: [".env"]
+    environment:
+      PRIVILEGED: "true"
+      REGISTER_ONLY: "true"
+    networks: [core]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # URLDownloader service
   service_urldownloader:
