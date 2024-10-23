@@ -14,7 +14,7 @@ core:
     service_defaults:
       backlog: 10
       shrink: 20
-      min_instances: 1
+      min_instances: 0
       environment:
         - name: SERVICE_API_KEY
           value: ${SERVICE_API_KEY}
