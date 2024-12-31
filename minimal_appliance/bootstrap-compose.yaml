@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # Bootstrap the assemblyline system by creating an admin user
   first_time_setup:
