@@ -380,7 +380,7 @@ services:
       file: ./common/core.yaml
       service: core
     command: python -m assemblyline_core.ingester
-    <<: *elasticsearch_redis_minimal-depends
+    <<: *elasticsearch_redis_full-depends
     profiles: ["full"]
 
   # Service server
