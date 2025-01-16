@@ -1,3 +1,39 @@
+x-elasticsearch_minimal-depends: &elasticsearch_minimal-depends
+  depends_on:
+    elasticsearch_minimal:
+      condition: service_healthy
+
+x-elasticsearch_full-depends: &elasticsearch_full-depends
+  depends_on:
+    elasticsearch_full:
+      condition: service_healthy
+
+x-elasticsearch_redis_minimal-depends: &elasticsearch_redis_minimal-depends
+  depends_on:
+    elasticsearch_minimal:
+      condition: service_healthy
+    redis:
+      condition: service_started
+
+x-elasticsearch_redis_full-depends: &elasticsearch_redis_full-depends
+  depends_on:
+    elasticsearch_full:
+      condition: service_healthy
+    redis:
+      condition: service_started
+
+x-core_minimal: &core_minimal
+  extends:
+    file: ./common/core.yaml
+    service: core
+  <<: *elasticsearch_minimal-depends
+
+x-core_full: &core_full
+  extends:
+    file: ./common/core.yaml
+    service: core
+  <<: *elasticsearch_full-depends
+
 services:
   # Dependencies
   minio:
@@ -181,70 +217,40 @@ services:
   # Alerter
   alerter_minimal:
     container_name: alerter
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.alerter.run_alerter
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["minimal"]
 
   alerter_full:
     container_name: alerter
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.alerter.run_alerter
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["full"]
 
   # Archiver
   archiver_minimal:
     container_name: archiver
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.archiver.run_archiver
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["archive"]
 
   archiver_full:
     container_name: archiver
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.archiver.run_archiver
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["archive"]
 
   # Expiry
   expiry_minimal:
     container_name: expiry
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.expiry.run_expiry
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["minimal"]
 
   expiry_full:
     container_name: expiry
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.expiry.run_expiry
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["full"]
 
   # Metrics aggregator
@@ -256,101 +262,59 @@ services:
     networks: [core]
     restart: on-failure
     command: python -m assemblyline_core.metrics.run_metrics_aggregator
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
+    <<: *elasticsearch_full-depends
     profiles: ["full"]
 
   # Heartbeat manager
   heartbeat_minimal:
     container_name: heartbeat
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["minimal"]
 
   heartbeat_full:
     container_name: heartbeat
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["full"]
 
   # Plumber
   plumber_minimal:
     container_name: plumber
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.plumber.run_plumber
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["minimal"]
 
   plumber_full:
     container_name: plumber
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.plumber.run_plumber
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["full"]
 
   # Statistics aggregator
   statistics_minimal:
     container_name: statistics
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.metrics.run_statistics_aggregator
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["minimal"]
 
   statistics_full:
     container_name: statistics
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.metrics.run_statistics_aggregator
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["full"]
 
   # Workflow
   workflow_minimal:
     container_name: workflow
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.workflow.run_workflow
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["minimal"]
 
   workflow_full:
     container_name: workflow
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.workflow.run_workflow
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["full"]
 
   # Scaler
@@ -359,9 +323,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: scaler
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
+    <<: *elasticsearch_minimal-depends
     profiles: ["minimal"]
 
   scaler_full:
@@ -369,9 +331,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: scaler
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
+    <<: *elasticsearch_full-depends
     profiles: ["full"]
 
   # Updater
@@ -380,9 +340,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: updater
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
+    <<: *elasticsearch_minimal-depends
     profiles: ["minimal"]
 
   updater_full:
@@ -390,32 +348,20 @@ services:
     extends:
       file: ./common/core.yaml
       service: updater
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
+    <<: *elasticsearch_full-depends
     profiles: ["full"]
 
   # Dispatcher
   dispatcher_minimal:
     container_name: dispatcher
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_minimal
     command: python -m assemblyline_core.dispatching
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
     profiles: ["minimal"]
 
   dispatcher_full:
     container_name: dispatcher
-    extends:
-      file: ./common/core.yaml
-      service: core
+    <<: *core_full
     command: python -m assemblyline_core.dispatching
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
     profiles: ["full"]
 
   # Ingester Processes
@@ -425,11 +371,7 @@ services:
       file: ./common/core.yaml
       service: core
     command: python -m assemblyline_core.ingester
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_minimal-depends
     profiles: ["minimal"]
 
   ingester_full:
@@ -438,11 +380,7 @@ services:
       file: ./common/core.yaml
       service: core
     command: python -m assemblyline_core.ingester
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_minimal-depends
     profiles: ["full"]
 
   # Service server
@@ -451,11 +389,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: service_server
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_minimal-depends
     profiles: ["minimal"]
 
   service_server_full:
@@ -463,11 +397,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: service_server
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_full-depends
     profiles: ["full"]
 
   # UI
@@ -476,11 +406,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: ui
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_minimal-depends
     profiles: ["minimal"]
 
   ui_full:
@@ -488,11 +414,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: ui
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_full-depends
     profiles: ["full"]
 
   # SocketIO Server
@@ -501,11 +423,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: socketio
-    depends_on:
-      elasticsearch_minimal:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_minimal-depends
     profiles: ["minimal"]
 
   socketio_full:
@@ -513,11 +431,7 @@ services:
     extends:
       file: ./common/core.yaml
       service: socketio
-    depends_on:
-      elasticsearch_full:
-        condition: service_healthy
-      redis:
-        condition: service_started
+    <<: *elasticsearch_redis_full-depends
     profiles: ["full"]
 
   # Assemblyline Frontend
