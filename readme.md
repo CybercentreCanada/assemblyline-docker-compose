@@ -40,17 +40,21 @@ These following profiles can be combined (unless otherwise specified) depending 
 
 **Note**: The `minimal` and `full` profiles are mutually exclusive and are not to be used together.
 
-Pull the containers, depending on which profile you'd like to deploy:
-```bash
-sudo docker-compose --profile [minimal | full] pull --ignore-buildable
-sudo docker-compose --profile [minimal | full] build
-sudo docker-compose -f bootstrap-compose.yaml pull
-```
-Launch the core system, relative to the profile of choice.
-```bash
-sudo docker-compose --profile [minimal | full] up -d
-```
-Perform first time only setup and service initialization.
-```bash
-sudo docker-compose -f bootstrap-compose.yaml up
- ```
+You can specify which profiles to use on the commandline using the `--profile` flag or set `COMPOSE_PROFILES` in your `.env` file (default: `COMPOSE_PROFILES=minimal`)
+
+The following instructions assume `.env` contains `COMPOSE_PROFILES`, otherwise the `--profile` flag can be used to override what's set in `.env`:
+ 1. Pull the containers, depending on which profile you'd like to deploy:
+    ```bash
+    sudo docker-compose pull --ignore-buildable
+    sudo docker-compose build
+    sudo docker-compose -f bootstrap-compose.yaml pull
+    ```
+
+ 2. Launch the core system, relative to the profile of choice.
+    ```bash
+    sudo docker-compose up -d
+    ```
+ 3. Perform first time only setup and service initialization.
+    ```bash
+    sudo docker-compose -f bootstrap-compose.yaml up
+    ```
