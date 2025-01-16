@@ -28,44 +28,39 @@ https://cybercentrecanada.github.io/assemblyline4_docs/
 ##### 2. Clone this repository
 ```bash
 git clone https://github.com/CybercentreCanada/assemblyline-docker-compose.git
-```
-
-##### 3. Choose deployment type
-Choose one of the minimal or full deployments. The rest of the commands
-and paths given will be relative to the directory specific to the deployment
-type you are doing.
-```bash
 mkdir ~/deployments
 cp -R ~/git/assemblyline-docker-compose/minimal_appliance ~/deployments/assemblyline
 cd ~/deployments/assemblyline
 ```
+##### 3. Set domain, passwords, and paths in `./.env` and `./config/bootstrap.py`
 
-or
-
-```bash
-mkdir ~/deployments
-cp -R ~/git/assemblyline-docker-compose/full_appliance ~/deployments/assemblyline
-cd ~/deployments/assemblyline
-```
-
-##### 4. Set domain, passwords, and paths in `./.env` and `./config/bootstrap.py`
-
-##### 5. Copy in an existing or generate a self-signed certificate into the `./config` directory in the cloned repository
+##### 4. Copy in an existing or generate a self-signed certificate into the `./config` directory in the cloned repository
 ```bash
 source .env
 openssl req -nodes -x509 -newkey rsa:4096 -keyout ./config/nginx.key -out ./config/nginx.crt -days 365 -subj "/C=CA/ST=Ontario/L=Ottawa/O=CCCS/CN=$DOMAIN"
 ```
 
-##### 6. Launch the system
-Pull the containers.
+##### 5. Launch the system
+
+###### Docker Compose Profiles
+
+These following profiles can be combined (unless otherwise specified) depending on your deployment requirements:
+
+- `minimal`: Deploy the Assemblyline with the bare necessities to get the system up and going
+- `full`: Deploy Assemblyline with additional components for gathering metrics & logging and the deployment of Kibana
+- `archive`: This deploys the Archiver component of Assemblyline but this requires `datastore.archive.enabled: true` in your [configuration](./config/config.yml) otherwise the container will terminate.
+
+**Note**: The `minimal` and `full` profiles are mutually exclusive and are not to be used together.
+
+Pull the containers, depending on which profile you'd like to deploy:
 ```bash
-sudo docker-compose pull
-sudo docker-compose build
+sudo docker-compose --profile [minimal | full] pull --ignore-buildable
+sudo docker-compose --profile [minimal | full] build
 sudo docker-compose -f bootstrap-compose.yaml pull
 ```
-Launch the core system.
+Launch the core system, relative to the profile of choice.
 ```bash
-sudo docker-compose up -d
+sudo docker-compose --profile [minimal | full] up -d
 ```
 Perform first time only setup and service initialization.
 ```bash

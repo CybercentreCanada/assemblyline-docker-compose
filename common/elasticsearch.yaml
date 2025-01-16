@@ -1,0 +1,19 @@
+services:
+  elasticsearch:
+    image: ${REGISTRY}docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      - ingest.geoip.downloader.enabled=false
+      - xpack.security.enabled=true
+      - discovery.type=single-node
+      - logger.level=WARN
+      - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
+      - "ES_JAVA_OPTS=-Xms${ELASTIC_MEM}m -Xmx${ELASTIC_MEM}m -Dlog4j2.formatMsgNoLookups=true"
+    healthcheck:
+        test: ["CMD-SHELL", "curl --silent --fail -u elastic:${ELASTIC_PASSWORD} localhost:9200/_cluster/health || exit 1"]
+        interval: 30s
+        timeout: 30s
+        retries: 3
+    networks: [core]
+    volumes:
+      - datastore:/usr/share/elasticsearch/data
+    restart: on-failure
