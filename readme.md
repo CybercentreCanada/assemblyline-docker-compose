@@ -1,23 +1,11 @@
 ## Assemblyline 4 - Docker compose documentation
 
-There are two types of configuration possible:
+**NOTE:** Appliances are built on top of Docker but for the moment they do not support Docker in swarm mode.
 
-- Minimal appliance
-- Full Appliance
-
-```NOTE:``` Appliances are built on top of docker but for the moment they do not support Docker in swarm mode.
-
-### Minimal Appliance
-
-This setup includes the bare-minimum components for everything to be able to run. There will be no metrics collected and you will have to tail the log from the docker container logs.
-
-### Full Appliance
-
-This setup includes every single components and all metrics and logging capabilities. Metrics and logs will be gathered inside the same Elasticsearch instance as the processing data and you will have access kibana to view all of those.
 
 ## Setup
 
-For full documentation on how to setup an assemblyline appliance see the documentation page.
+For full documentation on how to setup an Assemblyline appliance see the documentation page.
 https://cybercentrecanada.github.io/assemblyline4_docs/
 
 #### Quickstart
@@ -29,7 +17,7 @@ https://cybercentrecanada.github.io/assemblyline4_docs/
 ```bash
 git clone https://github.com/CybercentreCanada/assemblyline-docker-compose.git
 mkdir ~/deployments
-cp -R ~/git/assemblyline-docker-compose/minimal_appliance ~/deployments/assemblyline
+cp -R ~/git/assemblyline-docker-compose ~/deployments/assemblyline
 cd ~/deployments/assemblyline
 ```
 ##### 3. Set domain, passwords, and paths in `./.env` and `./config/bootstrap.py`
@@ -46,8 +34,8 @@ openssl req -nodes -x509 -newkey rsa:4096 -keyout ./config/nginx.key -out ./conf
 
 These following profiles can be combined (unless otherwise specified) depending on your deployment requirements:
 
-- `minimal`: Deploy the Assemblyline with the bare necessities to get the system up and going
-- `full`: Deploy Assemblyline with additional components for gathering metrics & logging and the deployment of Kibana
+- `minimal`: This setup includes the bare-minimum components for everything to be able to run. There will be no metrics collected and you will have to tail the log from the docker container logs.
+- `full`: This setup includes every single components and all metrics and logging capabilities. Metrics and logs will be gathered inside the same Elasticsearch instance as the processing data and you will have access kibana to view all of those.
 - `archive`: This deploys the Archiver component of Assemblyline but this requires `datastore.archive.enabled: true` in your [configuration](./config/config.yml) otherwise the container will terminate.
 
 **Note**: The `minimal` and `full` profiles are mutually exclusive and are not to be used together.
