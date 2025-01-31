@@ -236,7 +236,7 @@ services:
     env_file: [".env"]
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
-    networks: [core]
+    networks: [core, external]
     restart: on-failure
     command: python -m assemblyline_core.dispatching
     healthcheck:
