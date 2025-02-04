@@ -1,0 +1,457 @@
+x-elasticsearch_minimal-depends: &elasticsearch_minimal-depends
+  depends_on:
+    elasticsearch_minimal:
+      condition: service_healthy
+
+x-elasticsearch_full-depends: &elasticsearch_full-depends
+  depends_on:
+    elasticsearch_full:
+      condition: service_healthy
+
+x-elasticsearch_redis_minimal-depends: &elasticsearch_redis_minimal-depends
+  depends_on:
+    elasticsearch_minimal:
+      condition: service_healthy
+    redis:
+      condition: service_started
+
+x-elasticsearch_redis_full-depends: &elasticsearch_redis_full-depends
+  depends_on:
+    elasticsearch_full:
+      condition: service_healthy
+    redis:
+      condition: service_started
+
+x-core_minimal: &core_minimal
+  extends:
+    file: ./common/core.yaml
+    service: core
+  <<: *elasticsearch_minimal-depends
+
+x-core_full: &core_full
+  extends:
+    file: ./common/core.yaml
+    service: core
+  <<: *elasticsearch_full-depends
+
+services:
+  # Dependencies
+  minio:
+    image: ${REGISTRY}minio/minio
+    environment:
+      MINIO_ROOT_USER: al_storage_key
+      MINIO_ROOT_PASSWORD: "${FILESTORE_PASSWORD}"
+    command: server /data
+    networks: [core]
+    volumes:
+    - filestore:/data
+    restart: on-failure
+
+  kb_setup:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - KIBANA_PASSWORD=${KIBANA_PASSWORD}
+      - KIBANA_USERNAME=${KIBANA_USERNAME}
+    command: >
+      bash -c '
+        until curl  http://elastic:$$ELASTIC_PASSWORD@elasticsearch:9200 | grep -q "You Know, for Search"; do sleep 2; echo "Elastic not ready"; done;
+        curl -q -X POST -H "Content-Type: application/json" http://elastic:$$ELASTIC_PASSWORD@elasticsearch:9200/_security/user/$$KIBANA_USERNAME/_password -d "{\"password\":\"$$KIBANA_PASSWORD\"}";
+      '
+    depends_on:
+      elasticsearch_full:
+        condition: service_healthy
+    networks: [core]
+    profiles: ['full']
+
+
+  kibana:
+    image: ${REGISTRY}docker.elastic.co/kibana/kibana:8.10.2
+    environment:
+      SERVER_NAME: localhost
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      KIBANA_PASSWORD: ${KIBANA_PASSWORD}
+      KIBANA_USERNAME: ${KIBANA_USERNAME}
+    depends_on:
+      elasticsearch_full:
+        condition: service_healthy
+      kb_setup:
+        condition: service_completed_successfully
+    volumes:
+      - ${COMPOSE_ROOT}/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail -u elastic:$$ELASTIC_PASSWORD http://localhost:5601/kibana"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks: [core]
+    restart: on-failure
+    profiles: ['full']
+
+  apm_server:
+    image: ${REGISTRY}docker.elastic.co/apm/apm-server:8.10.2
+    volumes:
+      - ${COMPOSE_ROOT}/config/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
+    environment:
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      KIBANA_PASSWORD: ${KIBANA_PASSWORD}
+      KIBANA_USERNAME: ${KIBANA_USERNAME}
+    command: /bin/bash -c "/usr/local/bin/docker-entrypoint -e -strict.perms=false"
+    depends_on:
+      elasticsearch_full:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    networks:
+      core: {}
+    restart: on-failure
+    profiles: ['full']
+
+  elasticsearch_minimal:
+    container_name: elasticsearch
+    extends:
+      file: ./common/elasticsearch.yaml
+      service: elasticsearch
+    profiles: ["minimal"]
+
+  elasticsearch_full:
+    container_name: elasticsearch
+    extends:
+      file: ./common/elasticsearch.yaml
+      service: elasticsearch
+    environment:
+      - "cluster.routing.allocation.disk.watermark.low=10gb"
+      - "cluster.routing.allocation.disk.watermark.high=5gb"
+      - "cluster.routing.allocation.disk.watermark.flood_stage=1gb"
+    profiles: ["full"]
+
+  filebeat:
+    image: ${REGISTRY}docker.elastic.co/beats/filebeat:8.10.2
+    user: root
+    environment:
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${COMPOSE_ROOT}/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ${COMPOSE_ROOT}/config/filebeat_policy.json:/usr/share/filebeat/filebeat_policy.json:ro
+    command: filebeat -e -strict.perms=false
+    depends_on:
+      elasticsearch_full:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    networks: [core]
+    restart: on-failure
+    profiles: ["full"]
+
+  metricbeat:
+    image: ${REGISTRY}docker.elastic.co/beats/metricbeat:8.10.2
+    user: root
+    environment:
+      ELASTIC_HOSTS: http://elasticsearch:9200
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${COMPOSE_ROOT}/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - ${COMPOSE_ROOT}/config/metricbeat_policy.json:/usr/share/metricbeat/metricbeat_policy.json:ro
+    command: metricbeat -e --strict.perms=false
+    depends_on:
+      elasticsearch_full:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
+    networks: [core]
+    restart: on-failure
+    profiles: ["full"]
+
+  redis:
+    image: ${REGISTRY}redis
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - redis:/data
+    command: redis-server --io-threads 2
+    restart: on-failure
+    networks: [core]
+
+  nginx_minimal:
+    container_name: nginx
+    extends:
+      file: ./common/nginx.yaml
+      service: nginx
+    environment:
+      - TEMPLATE=minimal
+    depends_on:
+      socketio_minimal:
+        condition: service_started
+      ui_minimal:
+        condition: service_started
+    profiles: ["minimal"]
+
+  nginx_full:
+    container_name: nginx
+    extends:
+      file: ./common/nginx.yaml
+      service: nginx
+    depends_on:
+      kibana:
+        condition: service_started
+      socketio_full:
+        condition: service_started
+      ui_full:
+        condition: service_started
+    profiles: ["full"]
+
+  # Start the core services
+  # Alerter
+  alerter_minimal:
+    container_name: alerter
+    <<: *core_minimal
+    command: python -m assemblyline_core.alerter.run_alerter
+    profiles: ["minimal"]
+
+  alerter_full:
+    container_name: alerter
+    <<: *core_full
+    command: python -m assemblyline_core.alerter.run_alerter
+    profiles: ["full"]
+
+  # Archiver
+  archiver_minimal:
+    container_name: archiver
+    <<: *core_minimal
+    command: python -m assemblyline_core.archiver.run_archiver
+    profiles: ["archive"]
+
+  archiver_full:
+    container_name: archiver
+    <<: *core_full
+    command: python -m assemblyline_core.archiver.run_archiver
+    profiles: ["archive"]
+
+  # Expiry
+  expiry_minimal:
+    container_name: expiry
+    <<: *core_minimal
+    command: python -m assemblyline_core.expiry.run_expiry
+    profiles: ["minimal"]
+
+  expiry_full:
+    container_name: expiry
+    <<: *core_full
+    command: python -m assemblyline_core.expiry.run_expiry
+    profiles: ["full"]
+
+  # Metrics aggregator
+  metrics:
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
+    env_file: [".env"]
+    volumes:
+      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core]
+    restart: on-failure
+    command: python -m assemblyline_core.metrics.run_metrics_aggregator
+    <<: *elasticsearch_full-depends
+    profiles: ["full"]
+
+  # Heartbeat manager
+  heartbeat_minimal:
+    container_name: heartbeat
+    <<: *core_minimal
+    command: python -m assemblyline_core.metrics.run_heartbeat_manager
+    profiles: ["minimal"]
+
+  heartbeat_full:
+    container_name: heartbeat
+    <<: *core_full
+    command: python -m assemblyline_core.metrics.run_heartbeat_manager
+    profiles: ["full"]
+
+  # Plumber
+  plumber_minimal:
+    container_name: plumber
+    <<: *core_minimal
+    command: python -m assemblyline_core.plumber.run_plumber
+    profiles: ["minimal"]
+
+  plumber_full:
+    container_name: plumber
+    <<: *core_full
+    command: python -m assemblyline_core.plumber.run_plumber
+    profiles: ["full"]
+
+  # Statistics aggregator
+  statistics_minimal:
+    container_name: statistics
+    <<: *core_minimal
+    command: python -m assemblyline_core.metrics.run_statistics_aggregator
+    profiles: ["minimal"]
+
+  statistics_full:
+    container_name: statistics
+    <<: *core_full
+    command: python -m assemblyline_core.metrics.run_statistics_aggregator
+    profiles: ["full"]
+
+  # Workflow
+  workflow_minimal:
+    container_name: workflow
+    <<: *core_minimal
+    command: python -m assemblyline_core.workflow.run_workflow
+    profiles: ["minimal"]
+
+  workflow_full:
+    container_name: workflow
+    <<: *core_full
+    command: python -m assemblyline_core.workflow.run_workflow
+    profiles: ["full"]
+
+  # Scaler
+  scaler_minimal:
+    container_name: scaler
+    extends:
+      file: ./common/core.yaml
+      service: scaler
+    <<: *elasticsearch_minimal-depends
+    profiles: ["minimal"]
+
+  scaler_full:
+    container_name: scaler
+    extends:
+      file: ./common/core.yaml
+      service: scaler
+    <<: *elasticsearch_full-depends
+    profiles: ["full"]
+
+  # Updater
+  updater_minimal:
+    container_name: updater
+    extends:
+      file: ./common/core.yaml
+      service: updater
+    <<: *elasticsearch_minimal-depends
+    profiles: ["minimal"]
+
+  updater_full:
+    container_name: updater
+    extends:
+      file: ./common/core.yaml
+      service: updater
+    <<: *elasticsearch_full-depends
+    profiles: ["full"]
+
+  # Dispatcher
+  dispatcher_minimal:
+    container_name: dispatcher
+    <<: *core_minimal
+    command: python -m assemblyline_core.dispatching
+    networks: [core, external]
+    profiles: ["minimal"]
+
+  dispatcher_full:
+    container_name: dispatcher
+    <<: *core_full
+    command: python -m assemblyline_core.dispatching
+    profiles: ["full"]
+
+  # Ingester Processes
+  ingester_minimal:
+    container_name: ingester
+    extends:
+      file: ./common/core.yaml
+      service: core
+    command: python -m assemblyline_core.ingester
+    <<: *elasticsearch_redis_minimal-depends
+    profiles: ["minimal"]
+
+  ingester_full:
+    container_name: ingester
+    extends:
+      file: ./common/core.yaml
+      service: core
+    command: python -m assemblyline_core.ingester
+    <<: *elasticsearch_redis_full-depends
+    profiles: ["full"]
+
+  # Service server
+  service_server_minimal:
+    container_name: service_server
+    extends:
+      file: ./common/core.yaml
+      service: service_server
+    <<: *elasticsearch_redis_minimal-depends
+    profiles: ["minimal"]
+
+  service_server_full:
+    container_name: service_server
+    extends:
+      file: ./common/core.yaml
+      service: service_server
+    <<: *elasticsearch_redis_full-depends
+    profiles: ["full"]
+
+  # UI
+  ui_minimal:
+    container_name: ui
+    extends:
+      file: ./common/core.yaml
+      service: ui
+    <<: *elasticsearch_redis_minimal-depends
+    profiles: ["minimal"]
+
+  ui_full:
+    container_name: ui
+    extends:
+      file: ./common/core.yaml
+      service: ui
+    <<: *elasticsearch_redis_full-depends
+    profiles: ["full"]
+
+  # SocketIO Server
+  socketio_minimal:
+    container_name: socketio
+    extends:
+      file: ./common/core.yaml
+      service: socketio
+    <<: *elasticsearch_redis_minimal-depends
+    profiles: ["minimal"]
+
+  socketio_full:
+    container_name: socketio
+    extends:
+      file: ./common/core.yaml
+      service: socketio
+    <<: *elasticsearch_redis_full-depends
+    profiles: ["full"]
+
+  # Assemblyline Frontend
+  frontend:
+    image: ${REGISTRY}cccs/assemblyline-ui-frontend:${AL_VERSION}
+    env_file: [".env"]
+    networks: [core]
+    restart: on-failure
+
+networks:
+  core:
+    internal: true
+  external:
+    internal: false
+  registration:
+    internal: true
+
+volumes:
+  datastore:
+  filestore:
+  redis:
+  service_config:

@@ -1,0 +1,94 @@
+services:
+  ## Core service
+  core:
+    image: ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
+    env_file: ["../.env"]
+    volumes:
+      - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core]
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+
+  # Scaler
+  scaler:
+    build:
+      context: ../privilege-core-image
+      args:
+        version: ${AL_VERSION}
+        registry: ${REGISTRY}
+      cache_from:
+        - cccs/assemblyline-core:${AL_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_scaler:${AL_VERSION}
+    privileged: true
+    env_file: ["../.env"]
+    environment:
+      DOCKER_CONFIGURATION_PATH: /mount/service_config
+      DOCKER_CONFIGURATION_VOLUME: ${COMPOSE_PROJECT_NAME}_service_config
+      AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
+      SERVICE_API_HOST: http://service-server:5003
+    volumes:
+      - service_config:/mount/service_config:rw
+      - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
+    networks: [core]
+    restart: on-failure
+    command: python -m assemblyline_core.scaler.run_scaler
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+
+  # Updater
+  updater:
+    build:
+      context: ../privilege-core-image
+      args:
+        version: ${AL_VERSION}
+        registry: ${REGISTRY}
+      cache_from:
+        - cccs/assemblyline-core:${AL_VERSION}
+    image: ${COMPOSE_PROJECT_NAME}_updater:${AL_VERSION}
+    privileged: true
+    env_file: ["../.env"]
+    environment:
+      AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
+      CONFIGURATION_HOST_PATH: ${COMPOSE_PROJECT_NAME}_service_config
+      SERVICE_API_HOST: http://service-server:5003
+    volumes:
+      - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
+    command: python3 -m assemblyline_core.updater.run_updater
+    networks: [core, external]
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
+
+  # Service server
+  service_server:
+    image: ${REGISTRY}cccs/assemblyline-service-server:${AL_VERSION}
+    volumes:
+      - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
+    networks:
+      - core
+      - registration
+    env_file: ["../.env"]
+    environment:
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
+    restart: on-failure
+
+  # UI
+  ui:
+    image: ${REGISTRY}cccs/assemblyline-ui:${AL_VERSION}
+    env_file: ["../.env"]
+    volumes:
+      - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core, external]
+    restart: on-failure
+
+  # SocketIO Server
+  socketio:
+    image: ${REGISTRY}cccs/assemblyline-socketio:${AL_VERSION}
+    env_file: ["../.env"]
+    volumes:
+      - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
+    networks: [core]
+    restart: on-failure
