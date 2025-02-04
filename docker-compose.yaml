@@ -356,6 +356,7 @@ services:
     container_name: dispatcher
     <<: *core_minimal
     command: python -m assemblyline_core.dispatching
+    networks: [core, external]
     profiles: ["minimal"]
 
   dispatcher_full:
