@@ -292,17 +292,17 @@ services:
     profiles: ["full"]
 
   # Statistics aggregator
-  statistics_minimal:
-    container_name: statistics
-    <<: *core_minimal
-    command: python -m assemblyline_core.metrics.run_statistics_aggregator
-    profiles: ["minimal"]
+  # statistics_minimal:
+  #   container_name: statistics
+  #   <<: *core_minimal
+  #   command: python -m assemblyline_core.metrics.run_statistics_aggregator
+  #   profiles: ["minimal"]
 
-  statistics_full:
-    container_name: statistics
-    <<: *core_full
-    command: python -m assemblyline_core.metrics.run_statistics_aggregator
-    profiles: ["full"]
+  # statistics_full:
+  #   container_name: statistics
+  #   <<: *core_full
+  #   command: python -m assemblyline_core.metrics.run_statistics_aggregator
+  #   profiles: ["full"]
 
   # Workflow
   workflow_minimal:
