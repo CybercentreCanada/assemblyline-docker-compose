@@ -1,4 +1,4 @@
-ARG version
+ARG version=latest
 ARG registry
 FROM ${registry}cccs/assemblyline-core:$version
 
