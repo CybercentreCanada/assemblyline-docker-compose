@@ -209,7 +209,7 @@ services:
 
   # Extract service
   service_extract:
-    image: ${REGISTRY}cccs/assemblyline-service-extract:${SERVICE_VERSION}
+    image: localhost:32000/al/assemblyline-service-extract:custom
     env_file: [".env"]
     environment:
       PRIVILEGED: "true"
