@@ -208,15 +208,15 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Extract service
-  service_extract:
-    image: localhost:32000/al/assemblyline-service-extract:custom
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_extract:
+  #   image: localhost:32000/al/assemblyline-service-extract:custom
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Floss service
   # service_floss:
