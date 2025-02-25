@@ -10,26 +10,26 @@ services:
     networks: [core]
 
   # APIVector service
-  service_apivector:
-    image: ${REGISTRY}cccs/assemblyline-service-apivector:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_apivector:
+  #   image: ${REGISTRY}cccs/assemblyline-service-apivector:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # APKaye service
-  service_apkaye:
-    image: ${REGISTRY}cccs/assemblyline-service-apkaye:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_apkaye:
+  #   image: ${REGISTRY}cccs/assemblyline-service-apkaye:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # # Antivirus service
   # service_antivirus:
@@ -43,48 +43,48 @@ services:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Ancestry service
-  service_ancestry:
-    image: ${REGISTRY}cccs/assemblyline-service-ancestry:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_ancestry:
+  #   image: ${REGISTRY}cccs/assemblyline-service-ancestry:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # AVClass service
-  service_avclass:
-    image: ${REGISTRY}cccs/assemblyline-service-avclass:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_avclass:
+  #   image: ${REGISTRY}cccs/assemblyline-service-avclass:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Badlist service
-  service_badlist:
-    image: ${REGISTRY}cccs/assemblyline-service-badlist:${SERVICE_VERSION}
-    env_file: [ ".env" ]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [ core ]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_badlist:
+  #   image: ${REGISTRY}cccs/assemblyline-service-badlist:${SERVICE_VERSION}
+  #   env_file: [ ".env" ]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [ core ]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # BatchDeobfuscator service
-  service_batchdeobfuscator:
-    image: ${REGISTRY}cccs/assemblyline-service-batchdeobfuscator:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_batchdeobfuscator:
+  #   image: ${REGISTRY}cccs/assemblyline-service-batchdeobfuscator:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # CAPA service
   service_capa:
@@ -142,59 +142,59 @@ services:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Deobfuscripter service
-  service_deobfuscripter:
-    image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_deobfuscripter:
+  #   image: ${REGISTRY}cccs/assemblyline-service-deobfuscripter:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # DocumentPreview service
-  service_document_preview:
-    image: ${REGISTRY}cccs/assemblyline-service-document-preview:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_document_preview:
+  #   image: ${REGISTRY}cccs/assemblyline-service-document-preview:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # ELF service
-  service_elf:
-    image: ${REGISTRY}cccs/assemblyline-service-elf:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_elf:
+  #   image: ${REGISTRY}cccs/assemblyline-service-elf:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # ELFPARSER service
-  service_elfparser:
-    image: ${REGISTRY}cccs/assemblyline-service-elfparser:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_elfparser:
+  #   image: ${REGISTRY}cccs/assemblyline-service-elfparser:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # EmlParser service
-  service_emlparser:
-    image: ${REGISTRY}cccs/assemblyline-service-emlparser:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_emlparser:
+  #   image: ${REGISTRY}cccs/assemblyline-service-emlparser:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Espresso service
   # service_espresso:
@@ -219,26 +219,26 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Floss service
-  service_floss:
-    image: ${REGISTRY}cccs/assemblyline-service-floss:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_floss:
+  #   image: ${REGISTRY}cccs/assemblyline-service-floss:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Frankenstrings service
-  service_frankenstrings:
-    image: ${REGISTRY}cccs/assemblyline-service-frankenstrings:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_frankenstrings:
+  #   image: ${REGISTRY}cccs/assemblyline-service-frankenstrings:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # # Intezer service
   # service_intezer:
@@ -252,26 +252,26 @@ services:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # iParse service
-  service_iparse:
-    image: ${REGISTRY}cccs/assemblyline-service-iparse:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_iparse:
+  #   image: ${REGISTRY}cccs/assemblyline-service-iparse:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # JsJaws service
-  service_jsjaws:
-    image: ${REGISTRY}cccs/assemblyline-service-jsjaws:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_jsjaws:
+  #   image: ${REGISTRY}cccs/assemblyline-service-jsjaws:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # # MetaDefender service
   # service_metadefender:
@@ -285,48 +285,48 @@ services:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # MetaPeek service
-  service_metapeek:
-    image: ${REGISTRY}cccs/assemblyline-service-metapeek:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_metapeek:
+  #   image: ${REGISTRY}cccs/assemblyline-service-metapeek:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # OleTools service
-  service_oletools:
-    image: ${REGISTRY}cccs/assemblyline-service-oletools:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_oletools:
+  #   image: ${REGISTRY}cccs/assemblyline-service-oletools:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Overpower service
-  service_overpower:
-    image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_overpower:
+  #   image: ${REGISTRY}cccs/assemblyline-service-overpower:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # PDFiD service
-  service_pdfid:
-    image: ${REGISTRY}cccs/assemblyline-service-pdfid:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_pdfid:
+  #   image: ${REGISTRY}cccs/assemblyline-service-pdfid:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # PE service
   service_pe:
@@ -340,15 +340,15 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # PeePDF service
-  service_peepdf:
-    image: ${REGISTRY}cccs/assemblyline-service-peepdf:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_peepdf:
+  #   image: ${REGISTRY}cccs/assemblyline-service-peepdf:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Pixaxe service
   service_pixaxe:
@@ -362,81 +362,81 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Safelist service
-  service_safelist:
-    image: ${REGISTRY}cccs/assemblyline-service-safelist:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_safelist:
+  #   image: ${REGISTRY}cccs/assemblyline-service-safelist:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Sigma service
-  service_sigma:
-    image: ${REGISTRY}cccs/assemblyline-service-sigma:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_sigma:
+  #   image: ${REGISTRY}cccs/assemblyline-service-sigma:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Suricata service
-  service_suricata:
-    image: ${REGISTRY}cccs/assemblyline-service-suricata:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_suricata:
+  #   image: ${REGISTRY}cccs/assemblyline-service-suricata:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Swiffer service
-  service_swiffer:
-    image: ${REGISTRY}cccs/assemblyline-service-swiffer:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_swiffer:
+  #   image: ${REGISTRY}cccs/assemblyline-service-swiffer:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # TagCheck service
-  service_tagcheck:
-    image: ${REGISTRY}cccs/assemblyline-service-tagcheck:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_tagcheck:
+  #   image: ${REGISTRY}cccs/assemblyline-service-tagcheck:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # TorrentSlicer service
-  service_torrentslicer:
-    image: ${REGISTRY}cccs/assemblyline-service-torrentslicer:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_torrentslicer:
+  #   image: ${REGISTRY}cccs/assemblyline-service-torrentslicer:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # Unpacker service
-  service_unpacker:
-    image: ${REGISTRY}cccs/assemblyline-service-unpacker:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_unpacker:
+  #   image: ${REGISTRY}cccs/assemblyline-service-unpacker:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # # Unpacme service
   # service_unpacme:
@@ -450,37 +450,37 @@ services:
   #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # URLCreator service
-  service_urlcreator:
-    image: ${REGISTRY}cccs/assemblyline-service-urlcreator:${SERVICE_VERSION}
-    env_file: [ ".env" ]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [ core ]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_urlcreator:
+  #   image: ${REGISTRY}cccs/assemblyline-service-urlcreator:${SERVICE_VERSION}
+  #   env_file: [ ".env" ]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [ core ]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # URLDownloader service
-  service_urldownloader:
-    image: ${REGISTRY}cccs/assemblyline-service-urldownloader:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_urldownloader:
+  #   image: ${REGISTRY}cccs/assemblyline-service-urldownloader:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # ViperMonkey service
-  service_vipermonkey:
-    image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_vipermonkey:
+  #   image: ${REGISTRY}cccs/assemblyline-service-vipermonkey:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # # VirusTotal service
   # service_virustotal:
@@ -505,15 +505,15 @@ services:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
   # XLMMacroDeobfuscator service
-  service_xlmmacrodeobfuscator:
-    image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
-    env_file: [".env"]
-    environment:
-      PRIVILEGED: "true"
-      REGISTER_ONLY: "true"
-    networks: [core]
-    volumes:
-      - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
+  # service_xlmmacrodeobfuscator:
+  #   image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
+  #   env_file: [".env"]
+  #   environment:
+  #     PRIVILEGED: "true"
+  #     REGISTER_ONLY: "true"
+  #   networks: [core]
+  #   volumes:
+  #     - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
 
 networks:
   core:
