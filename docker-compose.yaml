@@ -245,12 +245,16 @@ services:
     container_name: expiry
     <<: *core_minimal
     command: python -m assemblyline_core.expiry.run_expiry
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
     profiles: ["minimal"]
 
   expiry_full:
     container_name: expiry
     <<: *core_full
     command: python -m assemblyline_core.expiry.run_expiry
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
     profiles: ["full"]
 
   # Metrics aggregator
@@ -309,12 +313,16 @@ services:
     container_name: workflow
     <<: *core_minimal
     command: python -m assemblyline_core.workflow.run_workflow
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
     profiles: ["minimal"]
 
   workflow_full:
     container_name: workflow
     <<: *core_full
     command: python -m assemblyline_core.workflow.run_workflow
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
     profiles: ["full"]
 
   # Scaler

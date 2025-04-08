@@ -7,8 +7,6 @@ services:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
     restart: on-failure
-    healthcheck:
-      test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
   # Scaler
   scaler:
