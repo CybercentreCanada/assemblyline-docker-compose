@@ -18,7 +18,7 @@ services:
         version: ${AL_VERSION}
         registry: ${REGISTRY}
       cache_from:
-        - cccs/assemblyline-core:${AL_VERSION}
+        - ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     image: ${COMPOSE_PROJECT_NAME}_scaler:${AL_VERSION}
     privileged: true
     env_file: ["../.env"]
@@ -45,7 +45,7 @@ services:
         version: ${AL_VERSION}
         registry: ${REGISTRY}
       cache_from:
-        - cccs/assemblyline-core:${AL_VERSION}
+        - ${REGISTRY}cccs/assemblyline-core:${AL_VERSION}
     image: ${COMPOSE_PROJECT_NAME}_updater:${AL_VERSION}
     privileged: true
     env_file: ["../.env"]
