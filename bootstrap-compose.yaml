@@ -213,6 +213,7 @@ services:
   # URLDownloader service
   service_urldownloader:
     image: ${REGISTRY}cccs/assemblyline-service-urldownloader:${SERVICE_VERSION}
+    init: true
     <<: *register_service
 
   # ViperMonkey service
