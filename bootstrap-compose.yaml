@@ -225,14 +225,19 @@ services:
     image: ${REGISTRY}cccs/assemblyline-service-virustotal:${SERVICE_VERSION}
     <<: *register_service
 
+  # XLMMacroDeobfuscator service
+  service_xlmmacrodeobfuscator:
+    image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
+    <<: *register_service
+
   # Yara service
   service_yara:
     image: ${REGISTRY}cccs/assemblyline-service-yara:${SERVICE_VERSION}
     <<: *register_service
 
-  # XLMMacroDeobfuscator service
-  service_xlmmacrodeobfuscator:
-    image: ${REGISTRY}cccs/assemblyline-service-xlmmacrodeobfuscator:${SERVICE_VERSION}
+  # Zeek service
+  service_zeek:
+    image: ${REGISTRY}cccs/assemblyline-service-zeek:${SERVICE_VERSION}
     <<: *register_service
 
 networks:
