@@ -46,7 +46,7 @@ The following instructions assume `.env` contains `COMPOSE_PROFILES`, otherwise 
  1. Pull the containers, depending on which profile you'd like to deploy:
     ```bash
     sudo docker-compose pull --ignore-buildable
-    sudo docker-compose build
+    sudo env COMPOSE_BAKE=true docker-compose build
     sudo docker-compose -f bootstrap-compose.yaml pull
     ```
 
