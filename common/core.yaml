@@ -9,6 +9,16 @@ services:
     networks: [core]
     restart: on-failure
 
+  ## Core rust service
+  rust:
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    env_file: ["../.env"]
+    volumes:
+      - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
+      - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
+    networks: [core]
+    restart: on-failure
+
   # Scaler
   scaler:
     build:
@@ -65,7 +75,8 @@ services:
 
   # Service server
   service_server:
-    image: ${REGISTRY}cccs/assemblyline-service-server:${AL_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    command: assemblyline-server service_api
     volumes:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro

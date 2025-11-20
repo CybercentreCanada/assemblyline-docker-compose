@@ -34,6 +34,19 @@ x-core_full: &core_full
     service: core
   <<: *elasticsearch_full-depends
 
+x-core_rust_minimal: &core_rust_minimal
+  extends:
+    file: ./common/core.yaml
+    service: core
+  <<: *elasticsearch_minimal-depends
+
+x-core_rust_full: &core_rust_full
+  extends:
+    file: ./common/core.yaml
+    service: rust
+  <<: *elasticsearch_full-depends
+
+
 services:
   # Dependencies
   minio:
@@ -285,14 +298,14 @@ services:
   # Plumber
   plumber_minimal:
     container_name: plumber
-    <<: *core_minimal
-    command: python -m assemblyline_core.plumber.run_plumber
+    <<: *core_rust_minimal
+    command: assemblyline-server plumber
     profiles: ["minimal"]
 
   plumber_full:
     container_name: plumber
-    <<: *core_full
-    command: python -m assemblyline_core.plumber.run_plumber
+    <<: *core_rust_full
+    command: assemblyline-server plumber
     profiles: ["full"]
 
   # Statistics aggregator
@@ -362,15 +375,15 @@ services:
   # Dispatcher
   dispatcher_minimal:
     container_name: dispatcher
-    <<: *core_minimal
-    command: python -m assemblyline_core.dispatching
+    <<: *core_rust_minimal
+    command: assemblyline-server dispatcher
     networks: [core, external]
     profiles: ["minimal"]
 
   dispatcher_full:
     container_name: dispatcher
-    <<: *core_full
-    command: python -m assemblyline_core.dispatching
+    <<: *core_rust_full
+    command: assemblyline-server dispatcher
     profiles: ["full"]
 
   # Ingester Processes
@@ -378,8 +391,8 @@ services:
     container_name: ingester
     extends:
       file: ./common/core.yaml
-      service: core
-    command: python -m assemblyline_core.ingester
+      service: rust
+    command: assemblyline-server ingester
     <<: *elasticsearch_redis_minimal-depends
     profiles: ["minimal"]
 
@@ -387,8 +400,8 @@ services:
     container_name: ingester
     extends:
       file: ./common/core.yaml
-      service: core
-    command: python -m assemblyline_core.ingester
+      service: rust
+    command: assemblyline-server ingester
     <<: *elasticsearch_redis_full-depends
     profiles: ["full"]
 
