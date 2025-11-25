@@ -286,13 +286,15 @@ services:
   plumber_minimal:
     container_name: plumber
     <<: *core_minimal
-    command: python -m assemblyline_core.plumber.run_plumber
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    command: assemblyline-server plumber
     profiles: ["minimal"]
 
   plumber_full:
     container_name: plumber
     <<: *core_full
-    command: python -m assemblyline_core.plumber.run_plumber
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    command: assemblyline-server plumber
     profiles: ["full"]
 
   # Statistics aggregator
@@ -363,14 +365,16 @@ services:
   dispatcher_minimal:
     container_name: dispatcher
     <<: *core_minimal
-    command: python -m assemblyline_core.dispatching
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    command: assemblyline-server dispatcher
     networks: [core, external]
     profiles: ["minimal"]
 
   dispatcher_full:
     container_name: dispatcher
     <<: *core_full
-    command: python -m assemblyline_core.dispatching
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    command: assemblyline-server dispatcher
     profiles: ["full"]
 
   # Ingester Processes
@@ -379,7 +383,8 @@ services:
     extends:
       file: ./common/core.yaml
       service: core
-    command: python -m assemblyline_core.ingester
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    command: assemblyline-server ingester
     <<: *elasticsearch_redis_minimal-depends
     profiles: ["minimal"]
 
@@ -388,7 +393,8 @@ services:
     extends:
       file: ./common/core.yaml
       service: core
-    command: python -m assemblyline_core.ingester
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
+    command: assemblyline-server ingester
     <<: *elasticsearch_redis_full-depends
     profiles: ["full"]
 
