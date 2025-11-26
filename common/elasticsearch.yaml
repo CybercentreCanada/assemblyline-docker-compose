@@ -16,4 +16,4 @@ services:
     networks: [core]
     volumes:
       - datastore:/usr/share/elasticsearch/data
-    restart: on-failure
+    restart: unless-stopped
