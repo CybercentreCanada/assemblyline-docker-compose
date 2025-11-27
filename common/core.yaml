@@ -7,7 +7,7 @@ services:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped
 
   # Scaler
   scaler:
@@ -32,7 +32,7 @@ services:
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped
     command: python -m assemblyline_core.scaler.run_scaler
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
@@ -59,7 +59,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock  # NOTE, this container has access to docker socket (this is like root)
     command: python3 -m assemblyline_core.updater.run_updater
     networks: [core, external]
-    restart: on-failure
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "bash", "-c", "if [[ ! `find /tmp/heartbeat -newermt '-30 seconds'` ]]; then false; fi"]
 
@@ -75,7 +75,7 @@ services:
     env_file: ["../.env"]
     environment:
       SERVICE_API_KEY: ${SERVICE_API_KEY}
-    restart: on-failure
+    restart: unless-stopped
 
   # UI
   ui:
@@ -85,7 +85,7 @@ services:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core, external]
-    restart: on-failure
+    restart: unless-stopped
 
   # SocketIO Server
   socketio:
@@ -95,4 +95,4 @@ services:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped

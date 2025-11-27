@@ -16,4 +16,4 @@ services:
     networks:
       - core
       - external
-    restart: on-failure
+    restart: unless-stopped

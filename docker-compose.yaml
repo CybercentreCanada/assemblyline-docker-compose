@@ -45,7 +45,7 @@ services:
     networks: [core]
     volumes:
     - filestore:/data
-    restart: on-failure
+    restart: unless-stopped
 
   kb_setup:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
@@ -87,7 +87,7 @@ services:
       timeout: 10s
       retries: 5
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped
     profiles: ['full']
 
   apm_server:
@@ -108,7 +108,7 @@ services:
         condition: service_healthy
     networks:
       core: {}
-    restart: on-failure
+    restart: unless-stopped
     profiles: ['full']
 
   elasticsearch_minimal:
@@ -148,7 +148,7 @@ services:
       kibana:
         condition: service_healthy
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped
     profiles: ["full"]
 
   metricbeat:
@@ -169,7 +169,7 @@ services:
       kibana:
         condition: service_healthy
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped
     profiles: ["full"]
 
   redis:
@@ -182,7 +182,7 @@ services:
     volumes:
       - redis:/data
     command: redis-server --io-threads 2
-    restart: on-failure
+    restart: unless-stopped
     networks: [core]
 
   nginx_minimal:
@@ -264,7 +264,7 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/config/config.yml:/etc/assemblyline/config.yml:ro
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped
     command: python -m assemblyline_core.metrics.run_metrics_aggregator
     <<: *elasticsearch_full-depends
     profiles: ["full"]
@@ -448,7 +448,7 @@ services:
     image: ${REGISTRY}cccs/assemblyline-ui-frontend:${AL_VERSION}
     env_file: [".env"]
     networks: [core]
-    restart: on-failure
+    restart: unless-stopped
 
 networks:
   core:
