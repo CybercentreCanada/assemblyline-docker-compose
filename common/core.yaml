@@ -65,7 +65,7 @@ services:
 
   # Service server
   service_server:
-    image: ${REGISTRY}cccs/assemblyline-service-server:${AL_VERSION}
+    image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
     volumes:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
@@ -73,6 +73,7 @@ services:
       - core
       - registration
     env_file: ["../.env"]
+    command: assemblyline-server service-api
     environment:
       SERVICE_API_KEY: ${SERVICE_API_KEY}
     restart: unless-stopped
