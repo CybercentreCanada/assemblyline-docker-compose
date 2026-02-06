@@ -244,6 +244,8 @@ networks:
   core:
     name: ${COMPOSE_PROJECT_NAME}_core
     external: true
+  registration:
+    name: ${COMPOSE_PROJECT_NAME}_registration
 
 volumes:
   filestore:
