@@ -2,6 +2,8 @@ services:
   register_service:
     env_file: ["../.env"]
     environment:
+      SERVICE_API_HOST: http://service_server:5003
+      SERVICE_API_KEY: ${SERVICE_API_KEY}
       REGISTER_ONLY: "true"
     networks: [registration]
     volumes:
