@@ -73,9 +73,10 @@ services:
       - core
       - registration
     env_file: ["../.env"]
-    command: assemblyline-server service-api
+    command: assemblyline-server service-api --allow-http-mode
     environment:
       SERVICE_API_KEY: ${SERVICE_API_KEY}
+      BIND_ADDRESS: "0.0.0.0:5003"
     restart: unless-stopped
 
   # UI
