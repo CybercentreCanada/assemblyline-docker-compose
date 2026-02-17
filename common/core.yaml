@@ -25,7 +25,7 @@ services:
       DOCKER_CONFIGURATION_PATH: /mount/service_config
       DOCKER_CONFIGURATION_VOLUME: ${COMPOSE_PROJECT_NAME}_service_config
       AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
-      SERVICE_API_HOST: http://service-server:5003
+      SERVICE_API_HOST: http://service_server:5003
     volumes:
       - service_config:/mount/service_config:rw
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
@@ -52,7 +52,7 @@ services:
     environment:
       AL_CORE_NETWORK: ${COMPOSE_PROJECT_NAME}_core
       CONFIGURATION_HOST_PATH: ${COMPOSE_PROJECT_NAME}_service_config
-      SERVICE_API_HOST: http://service-server:5003
+      SERVICE_API_HOST: http://service_server:5003
     volumes:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
