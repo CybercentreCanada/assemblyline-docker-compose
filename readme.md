@@ -45,16 +45,16 @@ You can specify which profiles to use on the commandline using the `--profile` f
 The following instructions assume `.env` contains `COMPOSE_PROFILES`, otherwise the `--profile` flag can be used to override what's set in `.env`:
  1. Pull the containers, depending on which profile you'd like to deploy:
     ```bash
-    sudo docker-compose pull --ignore-buildable
+    sudo docker compose pull --ignore-buildable
     sudo env COMPOSE_BAKE=true docker-compose build
-    sudo docker-compose -f bootstrap-compose.yaml pull
+    sudo docker compose -f bootstrap-compose.yaml pull
     ```
 
  2. Launch the core system, relative to the profile of choice.
     ```bash
-    sudo docker-compose up -d
+    sudo docker compose up -d
     ```
  3. Perform first time only setup and service initialization.
     ```bash
-    sudo docker-compose -f bootstrap-compose.yaml up
+    sudo docker compose -f bootstrap-compose.yaml up
     ```
