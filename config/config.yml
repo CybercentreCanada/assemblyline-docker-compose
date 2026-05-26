@@ -25,6 +25,9 @@ core:
     persistent:
       host: redis
       port: 6379
+  # updater:
+  #   # By default this is populated with a list of services to install automatically, set to empty to disable this behaviour
+  #   auto_install: []
 
 datastore:
   hosts: ["http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200"]
