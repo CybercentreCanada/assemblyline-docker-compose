@@ -15,6 +15,10 @@ core:
       backlog: 10
       shrink: 20
       min_instances: 0
+      # environment:
+      # Example: If you wanted to inject custom environment variables in service containers
+      # - name: SERVICE_API_HOST
+      #   value: http://service_server:5003
   redis:
     nonpersistent:
       host: redis
