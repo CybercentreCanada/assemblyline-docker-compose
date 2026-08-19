@@ -70,8 +70,12 @@ services:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
     networks:
-      - core
-      - registration
+      core:
+        aliases:
+          - service_server
+      registration:
+        aliases:
+          - service_server
     env_file: ["../.env"]
     command: assemblyline-server service-api --allow-http-mode
     environment:
@@ -86,7 +90,13 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
-    networks: [core, external]
+    networks:
+      core:
+        aliases:
+          - ui
+      external:
+        aliases:
+          - ui
     restart: unless-stopped
 
   # SocketIO Server
@@ -96,5 +106,8 @@ services:
     volumes:
       - ${COMPOSE_ROOT}/../config/config.yml:/etc/assemblyline/config.yml:ro
       - ${COMPOSE_ROOT}/../config/classification.yml:/etc/assemblyline/classification.yml:ro
-    networks: [core]
+    networks:
+      core:
+        aliases:
+          - socketio
     restart: unless-stopped
