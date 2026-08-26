@@ -14,6 +14,8 @@ services:
       - ${COMPOSE_ROOT}/../config/nginx.crt:/etc/ssl/nginx.crt:ro
       - ${COMPOSE_ROOT}/../config/nginx.key:/etc/ssl/nginx.key:ro
     networks:
-      - core
-      - external
+      core:
+        aliases:
+          - nginx
+      external: {}
     restart: unless-stopped

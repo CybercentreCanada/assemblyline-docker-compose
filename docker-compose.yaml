@@ -112,14 +112,12 @@ services:
     profiles: ['full']
 
   elasticsearch_minimal:
-    container_name: elasticsearch
     extends:
       file: ./common/elasticsearch.yaml
       service: elasticsearch
     profiles: ["minimal"]
 
   elasticsearch_full:
-    container_name: elasticsearch
     extends:
       file: ./common/elasticsearch.yaml
       service: elasticsearch
@@ -186,7 +184,6 @@ services:
     networks: [core]
 
   nginx_minimal:
-    container_name: nginx
     extends:
       file: ./common/nginx.yaml
       service: nginx
@@ -200,7 +197,6 @@ services:
     profiles: ["minimal"]
 
   nginx_full:
-    container_name: nginx
     extends:
       file: ./common/nginx.yaml
       service: nginx
@@ -216,33 +212,28 @@ services:
   # Start the core services
   # Alerter
   alerter_minimal:
-    container_name: alerter
     <<: *core_minimal
     command: python -m assemblyline_core.alerter.run_alerter
     profiles: ["minimal"]
 
   alerter_full:
-    container_name: alerter
     <<: *core_full
     command: python -m assemblyline_core.alerter.run_alerter
     profiles: ["full"]
 
   # Archiver
   archiver_minimal:
-    container_name: archiver
     <<: *core_minimal
     command: python -m assemblyline_core.archiver.run_archiver
     profiles: ["archive"]
 
   archiver_full:
-    container_name: archiver
     <<: *core_full
     command: python -m assemblyline_core.archiver.run_archiver
     profiles: ["archive"]
 
   # Expiry
   expiry_minimal:
-    container_name: expiry
     <<: *core_minimal
     command: python -m assemblyline_core.expiry.run_expiry
     healthcheck:
@@ -250,7 +241,6 @@ services:
     profiles: ["minimal"]
 
   expiry_full:
-    container_name: expiry
     <<: *core_full
     command: python -m assemblyline_core.expiry.run_expiry
     healthcheck:
@@ -271,27 +261,23 @@ services:
 
   # Heartbeat manager
   heartbeat_minimal:
-    container_name: heartbeat
     <<: *core_minimal
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
     profiles: ["minimal"]
 
   heartbeat_full:
-    container_name: heartbeat
     <<: *core_full
     command: python -m assemblyline_core.metrics.run_heartbeat_manager
     profiles: ["full"]
 
   # Plumber
   plumber_minimal:
-    container_name: plumber
     <<: *core_minimal
     image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
     command: assemblyline-server plumber
     profiles: ["minimal"]
 
   plumber_full:
-    container_name: plumber
     <<: *core_full
     image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
     command: assemblyline-server plumber
@@ -299,20 +285,17 @@ services:
 
   # Statistics aggregator
   statistics_minimal:
-    container_name: statistics
     <<: *core_minimal
     command: python -m assemblyline_core.metrics.run_statistics_aggregator
     profiles: ["minimal"]
 
   statistics_full:
-    container_name: statistics
     <<: *core_full
     command: python -m assemblyline_core.metrics.run_statistics_aggregator
     profiles: ["full"]
 
   # Workflow
   workflow_minimal:
-    container_name: workflow
     <<: *core_minimal
     command: python -m assemblyline_core.workflow.run_workflow
     healthcheck:
@@ -320,7 +303,6 @@ services:
     profiles: ["minimal"]
 
   workflow_full:
-    container_name: workflow
     <<: *core_full
     command: python -m assemblyline_core.workflow.run_workflow
     healthcheck:
@@ -329,7 +311,6 @@ services:
 
   # Scaler
   scaler_minimal:
-    container_name: scaler
     extends:
       file: ./common/core.yaml
       service: scaler
@@ -337,7 +318,6 @@ services:
     profiles: ["minimal"]
 
   scaler_full:
-    container_name: scaler
     extends:
       file: ./common/core.yaml
       service: scaler
@@ -346,7 +326,6 @@ services:
 
   # Updater
   updater_minimal:
-    container_name: updater
     extends:
       file: ./common/core.yaml
       service: updater
@@ -354,7 +333,6 @@ services:
     profiles: ["minimal"]
 
   updater_full:
-    container_name: updater
     extends:
       file: ./common/core.yaml
       service: updater
@@ -363,7 +341,6 @@ services:
 
   # Dispatcher
   dispatcher_minimal:
-    container_name: dispatcher
     <<: *core_minimal
     image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
     command: assemblyline-server dispatcher
@@ -371,7 +348,6 @@ services:
     profiles: ["minimal"]
 
   dispatcher_full:
-    container_name: dispatcher
     <<: *core_full
     image: ${REGISTRY}cccs/assemblyline-rust:${AL_VERSION}
     command: assemblyline-server dispatcher
@@ -379,7 +355,6 @@ services:
 
   # Ingester Processes
   ingester_minimal:
-    container_name: ingester
     extends:
       file: ./common/core.yaml
       service: core
@@ -389,7 +364,6 @@ services:
     profiles: ["minimal"]
 
   ingester_full:
-    container_name: ingester
     extends:
       file: ./common/core.yaml
       service: core
@@ -400,7 +374,6 @@ services:
 
   # Service server
   service_server_minimal:
-    container_name: service_server
     extends:
       file: ./common/core.yaml
       service: service_server
@@ -408,7 +381,6 @@ services:
     profiles: ["minimal"]
 
   service_server_full:
-    container_name: service_server
     extends:
       file: ./common/core.yaml
       service: service_server
@@ -417,7 +389,6 @@ services:
 
   # UI
   ui_minimal:
-    container_name: ui
     extends:
       file: ./common/core.yaml
       service: ui
@@ -425,7 +396,6 @@ services:
     profiles: ["minimal"]
 
   ui_full:
-    container_name: ui
     extends:
       file: ./common/core.yaml
       service: ui
@@ -434,7 +404,6 @@ services:
 
   # SocketIO Server
   socketio_minimal:
-    container_name: socketio
     extends:
       file: ./common/core.yaml
       service: socketio
@@ -442,7 +411,6 @@ services:
     profiles: ["minimal"]
 
   socketio_full:
-    container_name: socketio
     extends:
       file: ./common/core.yaml
       service: socketio
