@@ -37,6 +37,7 @@ These following profiles can be combined (unless otherwise specified) depending 
 - `minimal`: This setup includes the bare-minimum components for everything to be able to run. There will be no metrics collected and you will have to tail the log from the docker container logs.
 - `full`: This setup includes every single components and all metrics and logging capabilities. Metrics and logs will be gathered inside the same Elasticsearch instance as the processing data and you will have access kibana to view all of those.
 - `archive`: This deploys the Archiver component of Assemblyline but this requires `datastore.archive.enabled: true` in your [configuration](./config/config.yml) otherwise the container will terminate.
+- `mcp`: This deploys the MCP server of Assemblyline where you can connect AI agents or harnesses to Assemblyline on the `/mcp` endpoint.
 
 **Note**: The `minimal` and `full` profiles are mutually exclusive and are not to be used together.
 
