@@ -185,33 +185,25 @@ services:
     restart: unless-stopped
     networks: [core]
 
-  nginx_minimal:
-    container_name: nginx
-    extends:
-      file: ./common/nginx.yaml
-      service: nginx
+  nginx:
+    image: ${REGISTRY}cccs/nginx-ssl-frontend
+    ports:
+      - '443:443'
     environment:
-      - TEMPLATE=minimal
-    depends_on:
-      socketio_minimal:
-        condition: service_started
-      ui_minimal:
-        condition: service_started
-    profiles: ["minimal"]
-
-  nginx_full:
-    container_name: nginx
-    extends:
-      file: ./common/nginx.yaml
-      service: nginx
-    depends_on:
-      kibana:
-        condition: service_started
-      socketio_full:
-        condition: service_started
-      ui_full:
-        condition: service_started
-    profiles: ["full"]
+      - UI_HOST=ui
+      - SOCKET_HOST=socketio
+      - FRONTEND_HOST=frontend
+      - MCP_HOST=mcp
+      - KIBANA_HOST=kibana
+      - FQDN=${DOMAIN}
+      - MAX_BODY_SIZE=100M
+    volumes:
+      - ${COMPOSE_ROOT}/config/nginx.crt:/etc/ssl/nginx.crt:ro
+      - ${COMPOSE_ROOT}/config/nginx.key:/etc/ssl/nginx.key:ro
+    networks:
+      - core
+      - external
+    restart: unless-stopped
 
   # Start the core services
   # Alerter
@@ -455,6 +447,16 @@ services:
     env_file: [".env"]
     networks: [core]
     restart: unless-stopped
+
+  # Assemblyline Frontend
+  mcp:
+    image: ${REGISTRY}cccs/assemblyline-mcp:${AL_VERSION}
+    env_file: [".env"]
+    environment:
+      AL_UI: "http://ui:5000"
+    networks: [core]
+    restart: unless-stopped
+    profiles: ["mcp"]
 
 networks:
   core:
