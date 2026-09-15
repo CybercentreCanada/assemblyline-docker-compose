@@ -37,7 +37,7 @@ x-core_full: &core_full
 services:
   # Dependencies
   minio:
-    image: ${REGISTRY}minio/minio
+    image: ${REGISTRY}cccs/minio
     environment:
       MINIO_ROOT_USER: al_storage_key
       MINIO_ROOT_PASSWORD: "${FILESTORE_PASSWORD}"
